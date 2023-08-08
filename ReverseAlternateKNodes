@@ -1,0 +1,142 @@
+/*
+Reverse Alternate K Nodes
+Programming
+Linked Lists
+Medium
+
+Problem Description
+Given a linked list A of length N and an integer B.
+You need to reverse every alternate B nodes in the linked list A.
+
+Problem Constraints
+1 <= N <= 105
+1<= Value in Each Link List Node <= 103
+1 <= B <= N
+N is divisible by B
+
+
+Input Format
+First argument is the head pointer of the linkedlist A.
+
+Second argument is an integer B.
+
+
+
+Output Format
+Return the head pointer of the final linkedlist as described.
+
+
+
+Example Input
+Input 1:
+
+ A = 3 -> 4 -> 7 -> 5 -> 6 -> 6 -> 15 -> 61 -> 16
+ B = 3
+ Input 2:
+
+ A = 1 -> 4 -> 6 -> 6 -> 4 -> 10
+ B = 2
+
+
+Example Output
+Output 1:
+
+ 7 -> 4 -> 3 -> 5 -> 6 -> 6 -> 16 -> 61 -> 15
+Output 2:
+
+ 4 -> 1 -> 6 -> 6 -> 10 -> 4
+*/
+
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     ListNode(int x) { val = x; next = null; }
+ * }
+ */
+
+/*Approach 1: Using Stack to reverse B Nodes, using Flag to not reverse next B nodes
+Time: O(N), Space: O(B)
+*/
+
+/*
+public class Solution {
+    public ListNode solve(ListNode A, int B) {
+        if(B == 0 || B == 1)
+            return A;
+        if(A == null || A.next == null)
+            return A;
+        
+        Stack<Integer> st = new Stack<Integer>();
+        
+        ListNode i = A, start = null, end = null;
+        boolean reverseFlag = true;
+        int count = 0;
+        
+        while(i != null){
+            st.push(i.val);           
+
+            if(count == 0)
+                start = i;
+                
+            if(count == B-1 ){
+                end = i;
+                ListNode j = null;
+                if(reverseFlag){
+                    for( j = start; j != end; j = j.next)
+                        j.val = st.pop();
+                    j.val = st.pop();
+                }else{
+                    st.clear();                   
+                }
+                count = -1;
+                reverseFlag = !reverseFlag; 
+            }
+            i = i.next;
+            count++;
+        }
+        return A;
+    }
+}
+*/
+
+//Approach 2 : RECURSION
+//Time: O(N), Space: O(1)
+
+public class Solution {
+    
+    public ListNode solve(ListNode A, int B) {
+        if(B == 0 || B == 1)
+            return A;
+        if(A == null || A.next == null)
+            return A;
+                    
+        ListNode curr = A, prev = null, next = null;
+        int count =0;
+        
+        //reverse first B nodes
+        while(count < B && curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            count++;
+        } //prev = head of new list
+        
+        A.next = curr; //connect last node(1) of reversed list(1-2-3) to 4th node
+        ListNode newHead = prev;
+
+        //skip next B Nodes
+        count = 0 ;
+        while(count < B && curr != null){
+            prev = curr;
+            curr = curr.next;
+            count++;
+        }
+        
+        if(curr != null)
+            prev.next = solve(curr, B); 
+        return newHead;       
+    }
+}
