@@ -49,4 +49,26 @@ public class Solution {
         ans = pq.stream().mapToInt( Integer::intValue ).toArray();
         return ans;
     }
+    
+	static void printKLargestElements(int[] arr, int K) {
+		/* APPROACH 3 : O( N + MaxElement)
+		   Counting Sort Approach
+		   Find MAX, create frequency array, Calculate each freq, iterate from last, until K max elements are fetched
+		 */
+		int maxElement = Integer.MIN_VALUE;
+		for (int ele : arr) 		//Find Maximum Element
+			maxElement = Math.max(ele, maxElement);
+		
+		int[] freq = new int[maxElement + 1];//Array of FREQUENCY, intialize to 0
+		Arrays.fill(freq, 0);
+		for (int ele : arr)
+			freq[ele]++;
+		//System.out.println("Freq: " + Arrays.toString(freq));
+		int count = 0;
+		for (int i = freq.length-1 ; i > 0 ; i--) {  //iterate FREQ in reverse
+			for( int j = 0; j < freq[i] ; j++)
+				if(count++ < K)
+					System.out.print(i);
+		}
+	}
 }
