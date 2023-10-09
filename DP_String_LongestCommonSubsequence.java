@@ -63,4 +63,16 @@ public class Solution {
             }
         return Solution.ansDP[m][n];
     }
+    /*
+    Further Space Optimization
+    O(M*N) => O(N)
+    Use two Arrays A,B of length M instead of M*N
+    After every iteration 
+    Calculate B row based on A
+    and then move elements of B into A
+    
+    5 more variations on LCS problem
+    https://youtu.be/9xCpskXPRNQ?si=O3qZY8djcgyjBCja
+    
+    */
 }
