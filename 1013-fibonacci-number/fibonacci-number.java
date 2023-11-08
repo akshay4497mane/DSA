@@ -29,10 +29,12 @@ class Solution {
     }
     */
 
+    /*
     //DP Bottom Up | Tabulation O(N) space
+        //Runtime 0ms | Beats 100.00%of users with Java
+        //Memory 39.29MB | Beats 31.17%of users with Java
     public int fib(int n) {
         if(n<2) return n;
-        
         int[] DP = new int[n+1];
         DP[0] = 0;
         DP[1] = 1;
@@ -40,6 +42,18 @@ class Solution {
             DP[i] = DP[i-1] + DP[i-2];
         return DP[n];
     }
-
-
+    */
+    //DP Bottom Up | Tabulation O(N) space
+    public int fib(int n) {
+        if(n<2) return n;
+        int a = 0;
+        int b = 1;
+        int c = a+b;
+        for(int i=2; i<=n; i++){
+            c = a+b;
+            a = b;
+            b = c;
+        }
+        return c;
+    }
 }
