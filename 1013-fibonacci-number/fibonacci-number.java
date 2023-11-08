@@ -43,12 +43,10 @@ class Solution {
         return DP[n];
     }
     */
-    //DP Bottom Up | Tabulation O(N) space
+    //DP Bottom Up | Tabulation O(1) space
     public int fib(int n) {
         if(n<2) return n;
-        int a = 0;
-        int b = 1;
-        int c = a+b;
+        int a = 0, b = 1, c = a+b;
         for(int i=2; i<=n; i++){
             c = a+b;
             a = b;
