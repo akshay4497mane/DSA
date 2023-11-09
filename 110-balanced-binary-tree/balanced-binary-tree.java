@@ -16,6 +16,24 @@
 class Solution {
     public boolean isBalanced(TreeNode root) {
         if(root ==null) return true;
+        if( depth(root) == -1)
+            return false;
+        else
+            return true;
+    }
+    int depth(TreeNode root){
+        if(root ==null) return 0;
+        int L = depth(root.left);
+        int R = depth(root.right);
+        if( L==-1 || R == -1)
+            return -1;
+        if( Math.abs(L-R) > 1)
+            return -1;
+        return 1 + Math.max( L, R ); 
+    }
+    /*
+    public boolean isBalanced(TreeNode root) {
+        if(root ==null) return true;
         int L = depth(root.left);
         int R = depth(root.right);
         System.out.println(root.val + " : " + L + "," + R);
@@ -28,4 +46,5 @@ class Solution {
         if(root ==null) return 0;
         return 1 + Math.max(depth(root.left), depth(root.right)); 
     }
+    */
 }
