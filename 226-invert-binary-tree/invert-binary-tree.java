@@ -37,4 +37,25 @@ class Solution {
         }
         return root;
     }
+    /*
+    Recursion vs Stack Iteration 
+    RAM Memory vs HDD memory
+    Slow context switching vs Fast
+    https://stackoverflow.com/questions/35097729/recursion-vs-stack?rq=3
+    */
+
+    /* 
+    Java Stack which to use?  
+    Deque vs Stack
+    Interface vs Class
+    Not thread safe vs Thread safe
+    supports insert/delet both ends vs NA
+    NA vs st.get(1), st.put(1) modification risk as it extends vector
+    Iteration Top to bottom vs bottom to top
+
+    https://www.baeldung.com/java-deque-vs-stack
+
+    https://stackoverflow.com/questions/12524826/why-should-i-use-deque-over-stack
+    
+    */
 }
