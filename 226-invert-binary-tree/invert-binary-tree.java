@@ -26,6 +26,9 @@ class Solution {
     public TreeNode invertTree(TreeNode root) {
         if(root == null) return root;
         Stack<TreeNode> st = new Stack<>();
+        //Use Dequeue<TreeNode> st = new ArrayDequeue<>();
+        //Use Dequeue<TreeNode> st = new LinkedList<>();
+        
         st.push(root);
         while( !st.isEmpty() ){
             TreeNode node = st.pop();
@@ -37,6 +40,8 @@ class Solution {
         }
         return root;
     }
+    //Approach 3 : Use QUEUE  instead of stack | Level order to achieve same
+
     /*
     Recursion vs Stack Iteration 
     RAM Memory vs HDD memory
@@ -56,6 +61,6 @@ class Solution {
     https://www.baeldung.com/java-deque-vs-stack
 
     https://stackoverflow.com/questions/12524826/why-should-i-use-deque-over-stack
-    
+
     */
 }
