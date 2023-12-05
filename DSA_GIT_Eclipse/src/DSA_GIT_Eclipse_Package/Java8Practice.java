@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.OptionalInt;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.IntSupplier;
@@ -14,13 +15,32 @@ import java.util.stream.IntStream;
 
 public class Java8Practice {
 
-	//Practice Java8
-	
-	
-	
+	//Practice Java8 Driver Method	
 	public static void main(String[] args) {
-		practiceStreamAPI();
+		//practiceStreamAPI();
+		practiceLambdaExpressions();
+		
+		//practiceMultiThreading();
 	}
+	/*
+		Lamda Expression
+		Short blocks of code taking parameters and returning values.
+		Syntax: parameter -> expression;  must return value 
+		or (param1, param2) -> { stmt1; stmt2; };
+		
+	*/
+static void practiceLambdaExpressions() {
+	List<Integer> numList = Arrays.asList(1,3,5,6,9);
+	numList.forEach( (n) -> { System.out.print(n); }); //Direct use
+
+	Consumer<Integer> method = (n) -> { n = n*n; System.out.print(n); }; //Store Lambda Expression
+    numList.forEach( method );
+       
+}
+	
+
+	
+	
 	
 	//Practice Stream API 
 	// https://www.youtube.com/playlist?list=PLeDFPvjs51fPThsCeLo2wdnQqGjj_ayZ0
@@ -84,4 +104,38 @@ public class Java8Practice {
 			System.out.println(ansSquared.toString());		
 	}
 
+	static void practiceMultiThreading() {
+		//Lambda threads
+		Thread th1 = new Thread(() -> {
+			for(int i=0;i<5;i++) {
+				System.out.print("Lambda " + i + " " );
+				try {
+					Thread.sleep(0);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		th1.start();
+		
+		//Normal User Thread vs Daemon Thread
+		//Daemon threads are a type of thread in Java that run in the background and do not prevent the Java Virtual Machine (JVM) from exiting if all non-daemon threads have completed. 
+		//Normal threads, on the other hand, are user threads that can prevent the JVM from exiting as long as they are running.
+		Thread daemonTh = new Thread(new Runnable() {			
+			@Override
+			public void run() {
+				for(int i=0;i<10;i++) {
+					System.out.print("DTh " + i + " ");
+                    try {
+						Thread.sleep(0);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}				
+			}
+		});
+		daemonTh.setDaemon(true);
+		daemonTh.start();
+				
+	}
 }
