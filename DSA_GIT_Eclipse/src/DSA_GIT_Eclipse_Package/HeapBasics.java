@@ -32,7 +32,7 @@ public class HeapBasics {
 		for(int nonleaf = N/2-1; nonleaf >=0 ; nonleaf-- )
 			heapify(heap, N , nonleaf);
 	}
-	public static void heapSort(int[] heap) {
+	public static void heapSort(int[] heap) {  //O N log(N)
 		int N = heap.length;
 		//Step 1 : Build Max Heap
 		buildHeap(heap);
