@@ -18,6 +18,21 @@ class Node {
 }
 */
 class Solution {
+        
+//Recusrsive DFS + Hashmap 
+    public Map<Node, Node> hmap = new HashMap<>();
+    public Node cloneGraph(Node node){
+        if(node==null) return null;
+        if(hmap.containsKey(node)) return hmap.get(node);
+        Node newNode = new Node(node.val, new ArrayList<>());
+        hmap.put(node, newNode);
+        for( Node nbr : node.neighbors)
+            newNode.neighbors.add( cloneGraph(nbr) );
+        return newNode;
+    }
+
+/*
+//Iterative BFS using Queue & Hashmap 
     public Node cloneGraph(Node node) {
         if(node == null) return node;
         Map<Node, Node> hmap = new HashMap<>(); // Old -> New Mapping
@@ -40,4 +55,5 @@ class Solution {
         }
         return newNode;
     }
+*/
 }
