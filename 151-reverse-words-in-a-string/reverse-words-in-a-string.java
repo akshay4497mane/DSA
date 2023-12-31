@@ -27,10 +27,9 @@ class Solution {
     String cleanSpaces(char[] s){
         int i=0, j=0, n = s.length;
         while(j<n){
-            while( j < n && s[j] == ' ') j++;
-            if(j==n)
-                return new String(s).substring(0,i-1);
+            while( j < n && s[j] == ' ') j++;//skip spaces
             while( j < n && s[j] != ' ') s[i++] = s[j++];
+            while( j < n && s[j] == ' ') j++;//skip spaces
             if( j < n ) s[i++]=' ';
         }
         return new String(s).substring(0,i);
