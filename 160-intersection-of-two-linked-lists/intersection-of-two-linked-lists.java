@@ -11,12 +11,28 @@
  */
 public class Solution {
 /*
+Approach 3 : 
+Traverse both a,b untill a!=b, 
+but when ONE(eg. a ) goes to null reset it back to OTHER(headB)
+Answer in two passes
+https://leetcode.com/problems/intersection-of-two-linked-lists/solutions/49785/java-solution-without-knowing-the-difference-in-len
+ */
+public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+    ListNode a = headA, b = headB;
+    while( a !=b ){
+        a = (a != null)? a.next : headB;
+        b = (b != null)? b.next : headA;
+    }
+    return a;
+}
+
+/*
 Approach 2 : 
 Find lenA, Find lenB, 
 traverse longer list untill lenA>lenB or vice versa, 
 Traverse parallely both until equal node is found
 */
-public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+public ListNode getIntersectionNodeByFindLen(ListNode headA, ListNode headB) {
     int lenA = getLength(headA), lenB = getLength(headB);
     for( ; lenA > lenB; headA = headA.next, lenA--);//stop when lenA=lenB
     for( ; lenB > lenA; headB = headB.next, lenB--);//Only 1 for loop will execute    
@@ -26,12 +42,15 @@ public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
     }
     return null;
 }
-int getLength(ListNode head){
-    int length = 0;
-    for(; head!=null ; head=head.next, length++);
-    return length;
-}
-//Approach 1 : Traverse both parallely, Identify longer list, remaining nodes gives(lenA-lenB), Traverse longer list, now traverse both parallelly until they meet
+    int getLength(ListNode head){
+        int length = 0;
+        for(; head!=null ; head=head.next, length++);
+        return length;
+    }
+/*
+Approach 1 :
+Traverse both parallely, Identify longer list, remaining nodes gives(lenA-lenB), Traverse longer list, now traverse both parallelly until they meet
+*/
 public ListNode getIntersectionNodeTWOTraversal(ListNode headA, ListNode headB) {
     ListNode A = headA, B = headB;
     while(A != null && B != null ){//traverse both till one become null
