@@ -11,7 +11,7 @@
 class Solution {
     
     //Approach 1: Recursive
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2){
+    public ListNode mergeTwoListsRECURSIVE(ListNode l1, ListNode l2){
 		if(l1 == null) return l2;
 		if(l2 == null) return l1;
 		if(l1.val < l2.val){
@@ -57,4 +57,28 @@ class Solution {
         return ansHead;
     }
     */
+    //Approach 2: Non Recursive  + DUMMY NODE
+    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        ListNode prevAns, ans = new ListNode(0);
+        prevAns = ans;
+        if(list1==null) return list2;
+        if(list2==null) return list1;
+
+        while(list1 != null && list2!=null){
+            if(list1.val < list2.val ){
+                ans.next = list1;
+                list1 = list1.next;
+            }else{
+                ans.next = list2;
+                list2 = list2.next;                
+            }
+            ans = ans.next;
+        }
+        if(list1 != null ){
+            ans.next = list1;
+        }else{
+            ans.next = list2;
+        }
+        return prevAns.next;
+    }
 }
