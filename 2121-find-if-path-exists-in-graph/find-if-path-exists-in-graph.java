@@ -1,12 +1,34 @@
 class Solution {
+    // using DFS 
+    boolean foundPath = false;
     public boolean validPath(int n, int[][] edges, int source, int destination) {
         List<List<Integer>> graph = buildGraph(n, edges);
         boolean[] visited = new boolean[n];
-        Queue<Integer> q = new LinkedList<>();
-
         if(source == destination) return true;
-        q.add(source);
         visited[source] = true;
+        dfsHelper(source, destination, graph, visited);
+        return foundPath;
+    }
+    void dfsHelper(int curr, int destination, List<List<Integer>> graph, boolean[] visited ){
+        for( Integer v : graph.get(curr) ){
+            if(!visited[v]){
+                if(v == destination){
+                    foundPath = true;
+                return;
+                }
+                visited[v] = true;
+                dfsHelper(v, destination, graph, visited);
+            }
+        }
+    }
+
+    public boolean validPath_BFS(int n, int[][] edges, int source, int destination) {
+        List<List<Integer>> graph = buildGraph(n, edges);
+        boolean[] visited = new boolean[n];
+        Queue<Integer> q = new LinkedList<>();
+            if(source == destination) return true;
+            visited[source] = true;
+            q.add(source);
         while(!q.isEmpty()){
             int curr = q.poll();
             for(Integer v : graph.get(curr)){ //for all neighbours of curr
@@ -37,8 +59,5 @@ class Solution {
                 System.out.print(" " + e);
             System.out.println("");
         }
-
     }
-
-
 }
