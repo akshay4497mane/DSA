@@ -25,7 +25,7 @@ Approach 4 : O(1) space | Instead of boolean array, Use array itself to store Vi
         }
         return N;
     }
-//Approach 4 : O(1) space | Mark Visited by Marking values as -ve | Initially all values are +ve
+//Approach 4 : O(N) time, O(1) space | Mark Visited by Marking values as -ve | Initially all values are +ve
     public int findDuplicate(int[] A) {
         int N = A.length;
         System.out.println(Arrays.toString(A));
@@ -36,5 +36,30 @@ Approach 4 : O(1) space | Instead of boolean array, Use array itself to store Vi
             A[ curr-1 ] = A[ curr-1 ] * -1;
         }
         return N;
+    }
+}
+/*
+https://www.interviewbit.com/problems/repeat-and-missing-number-array/
+Return both Repeated Number and Missing Number Array
+Input:[3 1 2 5 3] 
+Output:[3, 4] 
+ */
+class Solution2 {
+    public int[] repeatedNumber(final int[] A) {
+        int N = A.length;
+        int[] ans = {0,0};
+        for(int i = 0; i<N ; i++){
+            int curr = Math.abs(A[i]);
+            if( A[curr-1] < 0 ){
+                ans[0] = curr;                
+            }else{
+                A[curr-1] = A[curr-1] * -1;
+            }
+        }
+        for(int i=0;i<N ;i++){
+            if(A[i] > 0)
+                ans[1] = i+1 ;
+        }
+        return ans;
     }
 }
