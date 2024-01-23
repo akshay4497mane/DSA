@@ -10,6 +10,14 @@
  * }
  */
 public class Solution {
+/*
+Approach: 
+Take 1 loop : slow, fast(double speed) pointers
+When they meet...Again start another loop untill head == slow | increment both 1 step at a time
+
+Time  Complexity: O(N)
+Space Complexity: O(1)
+*/
     public ListNode detectCycle(ListNode head) {
         if(head == null)return null;
         ListNode slow = head, fast = head;
