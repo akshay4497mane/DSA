@@ -1,15 +1,15 @@
 //Approach 1 Sudipta
-class Solution_1 {
+class Solution {
     public int jump(int[] nums) {
-        int res=0, end=0, far=0;
-        for(int i=0; i<nums.length-1; i++){
-            far=Math.max(far,(i+nums[i]));
-            if(far>=nums.length-1){
+        int res=0, end=0, farthest=0;
+        for(int i=0; i < nums.length-1; i++){
+            farthest = Math.max( farthest, (i+nums[i]) );
+            if( farthest >= nums.length-1 ){
                 return ++res;
             }
             if(i==end){ //visited all item in current level
                 res++;  // increment level
-                end = far;  //queue size for next level
+                end = farthest;  //queue size for next level
             }
         }
         return res;
@@ -29,7 +29,7 @@ return res;
 */
 
 //Approach 3 Neetcode solution video
-class Solution {
+class Solution_3 {
  public int jump(int[] nums) {
         int l=0,r=0; //window for DFS search after every jump
         int result=0;
