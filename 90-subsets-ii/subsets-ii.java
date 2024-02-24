@@ -1,5 +1,24 @@
 class Solution {
+//Approach 2 :
     public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Arrays.sort(nums);
+        backtrack(0, new ArrayList<Integer>(), ans, nums );
+        return ans;
+    }
+    void backtrack(int start, List<Integer> currAns, List<List<Integer>> ans, int[] nums ){
+        ans.add(new ArrayList<Integer>(currAns));
+        for(int i = start; i < nums.length ; i++){
+            if( i== start || nums[i] != nums[i-1] ){
+                currAns.add(nums[i]);
+                backtrack( i+1, currAns, ans, nums);
+                currAns.remove(currAns.size()-1);
+            }
+        }
+    }
+
+//Approach 1 : Using Bitwise operations + HashSet 
+    public List<List<Integer>> subsetsWithDup_Bitwise(int[] nums) {
         int N = nums.length;
         Arrays.sort(nums);
         List<List<Integer>> ans = new ArrayList<>();
