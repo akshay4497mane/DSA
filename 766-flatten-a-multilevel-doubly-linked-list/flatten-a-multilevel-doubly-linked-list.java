@@ -21,7 +21,7 @@ class Solution {
 
     //Time: O(N), Space: O(N)
     */
-    public Node flatten(Node head) {
+    public Node flatten_Approach1(Node head) {
         if(head==null) return head;
         Node dummyNode = new Node(0,null, head, null);//
         flattenDFS(dummyNode, head);
@@ -40,7 +40,7 @@ class Solution {
 
 //APPROACH 2: Recursion but More elegant Solution
 Node tail = null;
-public Node flatten_APPROACH2(Node head) {
+public Node flatten(Node head) {
     if(head == null) return null;
     
     head.prev = tail;
