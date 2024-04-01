@@ -30,7 +30,18 @@ public int missingNumber(int[] nums) {
         return ind;
     }
 */
-    //Approach 4 : Using gauss formula(sum of elements)
+    //Approach 4 : Using XOR
+    public int missingNumber(int[] nums) {
+        int expectedXor = 0;
+        for(int i=0; i <= nums.length; i++)
+            expectedXor ^=i;
+        int actualXor = 0;
+        for(int num : nums)
+            actualXor ^= num;
+        return expectedXor ^ actualXor;    
+    }
+/*
+    //Approach 5 : Using gauss formula(sum of elements)
     public int missingNumber(int[] nums) {
         int N = nums.length;
         int expectedSum = ( N * (N+1)) / 2;
@@ -38,4 +49,5 @@ public int missingNumber(int[] nums) {
         for(int num : nums) actualSum += num;
         return expectedSum - actualSum;
     }
+*/
 }
