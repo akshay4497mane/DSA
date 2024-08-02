@@ -1,30 +1,19 @@
 class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        
-        /*
-        //APPROACH 1 : Brute Force O(N^2) | 88ms
-        for(int i=0; i<nums.length ; i++){
-            for(int j=i+1; j<nums.length; j++){
-                if( i!=j && nums[i] == target-nums[j] )
-                    return new int[]{i,j};
+
+    //Approach 1 : Take 2 for loops, whenever A[i] + A[j] = sum , return i,j | Time:O(N^2)
+    //Approach 2 : Take 1 for loop, search for sum-A[i] in rest of array, sort array, O(N log N) 
+    //Approach 3 : take 1 loop, use hashmap for O(1) search | Time : O(N)
+    public int[] twoSum(int[] nums, int sumNeeded) {
+        Map<Integer, Integer> hm = new HashMap<>(); // num, index
+        for(int i=0 ; i<nums.length ; i++ ){
+            int toFind = sumNeeded - nums[i];
+            hm.get(toFind);
+            if(hm.containsKey(toFind)){
+                int toFindIndex = hm.get(toFind);
+                return new int[]{i, toFindIndex};
             }
+            hm.put(nums[i], i);            
         }
-        */
-        
-        /*
-        Approach2:
-        For each element curr, search Target - curr in rest of array, Search using Binary search(log N), using HashMap( O(1) )
-        Time: O(N), Space: O(N) | 2ms
-        */        
-        Map<Integer, Integer> m = new HashMap<>(); // Number, index
-        for(int i =0; i<nums.length; i++ ){
-            int newTarget = target-nums[i];
-            if(m.containsKey(newTarget)){
-                return new int[]{i, m.get(newTarget)};
-            }else{
-                m.put(nums[i], i);
-            }            
-        }
-        return new int[2];
+    return new int[2];
     }
 }
