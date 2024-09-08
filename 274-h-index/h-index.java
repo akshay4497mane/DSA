@@ -4,7 +4,7 @@ class Solution {
         -> answer is : find index such that citations[i]  < i
         Arrays.sort(arr, Collections.reverseOrder());
     */
-    public int hIndex(int[] citations) {
+    public int hIndex_approach1(int[] citations) {
         Integer[] newArray = new Integer[citations.length];
         int i = 0;
         for (int value : citations) {
@@ -25,5 +25,29 @@ class Solution {
         }
         return i-1;
 */
+    }
+
+/*
+Approach 2 ( O(N) ) : Sort with counting sort in ascending order + Search for index 
+    -> Replace all values > N as N [ not relevant for calculating h-index]
+    -> Now since all array values are between 0-N we can use counting sort
+The approach uses bucket sorting to calculate the h-index. For each citation in the array, the method increments the corresponding bucket, with any citation greater than or equal to *n* going into the last bucket. Then, it iterates backward through the buckets, summing the counts until the total is greater than or equal to the bucket index. This index is returned as the h-index.
+    */
+    public int hIndex(int[] citations) {
+        int n = citations.length;
+        int[] buckets = new int[n+1];
+        for( int c : citations ){
+            if(c >= n) 
+                buckets[n]++;
+            else 
+                buckets[c]++;
+        }
+        int count = 0;
+        for(int i=n; i>=0 ; i-- ){
+            count += buckets[i];
+            if( count >= i) 
+                return i;
+        }
+        return 0;
     }
 }
