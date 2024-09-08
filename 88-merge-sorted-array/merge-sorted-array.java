@@ -1,25 +1,16 @@
 class Solution {
+    //1 2 3
+    //2 5 6
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-        for(int i=nums1.length-1, j=m-1; j>=0 ; i--, j--){ 
-            nums1[i] = nums1[j];
+        int i1 = m-1, i2 = n-1, ansi = m+n-1;
+        while( i1>=0 && i2 >=0 ){
+            nums1[ansi--] = ( nums1[i1] > nums2[i2] ) ? nums1[i1--] : nums2[i2--];
         }
-        int i=n;//first array now starts at nums1[n]
-        int j=0; //2nd array nums2[0]
-        int ans=0;//Answer index
-        while(i<nums1.length && j<n){
-            if( nums1[i] <= nums2[j] ){
-                nums1[ans++] = nums1[i++];
-            }else{
-                nums1[ans++] = nums2[j++];
-            }
+        while( i1 >= 0){            
+            nums1[ansi--] = nums1[i1--];
         }
-        while( i<nums1.length ){
-            nums1[ans++] = nums1[i++];
+        while( i2 >= 0){            
+            nums1[ansi--] = nums2[i2--];
         }
-        while( j<n ){
-            nums1[ans++] = nums2[j++];
-        }
-        for(Integer e : nums1)
-            System.out.print(e);
     }
 }
