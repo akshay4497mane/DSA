@@ -19,9 +19,9 @@ class Solution {
   - Space: O(max(n, m)) — for the result list.    
 */
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode prevAns = new ListNode(999, null), ans = prevAns;
+        ListNode dummyAns = new ListNode(999, null), ans = dummyAns;
         int carry = 0;
-        while( l1 != null || l2 != null ){
+        while( l1 != null || l2 != null || carry != 0 ){
             int sum = ((l1 != null)?l1.val:0)  + ((l2!=null)?l2.val:0) + carry;
             ans.next = new ListNode( sum % 10 );
             carry = sum / 10;
@@ -29,9 +29,6 @@ class Solution {
             l1 = (l1 != null)?l1.next:null;
             l2 = (l2 != null)?l2.next:null;
         }
-        if( carry != 0){
-            ans.next = new ListNode( carry );
-        }
-        return prevAns.next;
+        return dummyAns.next;
     }
 }
