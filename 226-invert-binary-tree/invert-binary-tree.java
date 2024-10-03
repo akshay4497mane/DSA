@@ -14,6 +14,7 @@
  * }
  */
 class Solution {
+    /* Recursion : Time: O(N), Space O(height) */
     public TreeNode invertTree(TreeNode root) {
         if( root == null ) return root;
         TreeNode newRight = invertTree(root.left);
