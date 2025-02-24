@@ -3,6 +3,11 @@ class Solution {
         int low=0, high= nums.length-1, mid=0, ans = Integer.MAX_VALUE;
         while( low <= high){
             mid = low + (high-low)/2;
+
+            if( nums[low] <= nums[high] ){ //if entire array is sorted | A[l] <= A[mid] <= A[h]
+                ans = Math.min( ans, nums[low] );
+                break;
+            }
             //identify sorted half, find lowest value, store in ans, eliminate sorted half
             if( nums[low] <= nums[mid] ){ //LEFT half is sorted, find lowest, eliminate
                 ans = Math.min( ans, nums[low] );
