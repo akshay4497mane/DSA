@@ -6,6 +6,7 @@ Space complexity: O(1)
 Additional Notes: 
   - Check if the current subarray is sorted; if yes, the smallest element is at the low index.
   - Adjust search boundaries by eliminating the sorted half.
+TakeUForward Video Solution: https://www.youtube.com/watch?v=nhEMDKMB44g
 */
 
 class Solution {
