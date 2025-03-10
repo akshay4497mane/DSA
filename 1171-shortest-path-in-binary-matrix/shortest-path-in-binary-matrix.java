@@ -66,15 +66,26 @@ class Solution {
     }
 
     /*
-    Approach 2 : similar to approach 1, but we use visited[][] array, store distances in queue
-    */
+    Approach 2 : similar to BFS approach 1, but we use visited[][] array, store distances in queue
+    - We use a visited[][] array to track visited cells (instead of modifying `grid`).
+    - The queue stores [row, col, distance], where `distance` keeps track of the steps taken from (0,0).
+    - If we reach (M-1, N-1), we return the `distance` as the shortest path.
+    - Otherwise, we explore all 8 possible directions and continue BFS.
+
+    Time Complexity: **O(N²)**
+    - Each cell is visited at most once, and we explore at most 8 directions per cell.
+
+    Space Complexity: **O(N²)**
+    - BFS queue can store up to N + N-1 elements in the worst case O(N).
+    - The `visited[][]` array requires O(N²) space.
+        */
     public int shortestPathBinaryMatrix(int[][] grid) {
         int M = grid.length, N = grid[0].length; //total rows, cols
         if( grid[0][0]!=0 || grid[M-1][N-1]!=0 ) return -1;
         Queue<int[]> q = new ArrayDeque<>();
-        boolean[][] visited = new boolean[M][N];
+        boolean[][] visited = new boolean[M][N];//VISITED
         q.add(new int[]{0,0,1});
-        visited[0][0] = true;
+        visited[0][0] = true; //VISITED
         while(!q.isEmpty()){
             int[] qTop = q.remove();
             int r = qTop[0], c = qTop[1], currDist = qTop[2];
@@ -83,10 +94,10 @@ class Solution {
             for(int i=0; i<directions.length; i++){//explore all neighbours
                 int nr = r + directions[i][0];
                 int nc = c + directions[i][1];
-                if( nr < 0 || nc<0 || nr>=M || nc >= N || grid[nr][nc]==1 || visited[nr][nc] )
+                if( nr < 0 || nc<0 || nr>=M || nc >= N || grid[nr][nc]==1 || visited[nr][nc] )//VISITED
                     continue;
                 q.add( new int[]{nr, nc, currDist+1});
-                visited[nr][nc] = true;   
+                visited[nr][nc] = true;  //VISITED
             }
         }
         return -1;
