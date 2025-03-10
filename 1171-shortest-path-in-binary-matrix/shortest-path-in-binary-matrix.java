@@ -5,7 +5,7 @@ find the shortest path from the top-left corner (0,0) to the bottom-right corner
 You can move in 8 possible directions, and a path can only pass through empty cells (0).
 Return the shortest path length, or -1 if no such path exists.
 
-Approach: ( by overriding values in matrix)
+Approach 1: ( by overriding values in matrix)
 - Use Breadth-First Search (BFS) since it guarantees the shortest path in an unweighted graph.
 - Start from (0,0) and mark it as visited by changing its value to the current path length.
 - Use a queue to explore all possible neighbours/moves in 8 directions.
@@ -28,7 +28,7 @@ class Solution {
         {-1,  1}, { 0,  1}, { 1,  1}
     };
 
-    public int shortestPathBinaryMatrix(int[][] grid) {
+    public int shortestPathBinaryMatrix_Approach1(int[][] grid) {
         int M = grid.length, N = grid[0].length;
 
         // If start or end cell is blocked, return -1
@@ -62,6 +62,33 @@ class Solution {
         }
 
         // No valid path found
+        return -1;
+    }
+
+    /*
+    Approach 2 : similar to approach 1, but we use visited[][] array, store distances in queue
+    */
+    public int shortestPathBinaryMatrix(int[][] grid) {
+        int M = grid.length, N = grid[0].length; //total rows, cols
+        if( grid[0][0]!=0 || grid[M-1][N-1]!=0 ) return -1;
+        Queue<int[]> q = new ArrayDeque<>();
+        boolean[][] visited = new boolean[M][N];
+        q.add(new int[]{0,0,1});
+        visited[0][0] = true;
+        while(!q.isEmpty()){
+            int[] qTop = q.remove();
+            int r = qTop[0], c = qTop[1], currDist = qTop[2];
+            if( r==M-1 && c==N-1) 
+                return currDist;
+            for(int i=0; i<directions.length; i++){//explore all neighbours
+                int nr = r + directions[i][0];
+                int nc = c + directions[i][1];
+                if( nr < 0 || nc<0 || nr>=M || nc >= N || grid[nr][nc]==1 || visited[nr][nc] )
+                    continue;
+                q.add( new int[]{nr, nc, currDist+1});
+                visited[nr][nc] = true;   
+            }
+        }
         return -1;
     }
 }
