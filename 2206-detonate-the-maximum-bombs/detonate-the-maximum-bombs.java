@@ -76,7 +76,7 @@ class Solution_Approach1_Recursive_DFS {
         return count;
     }
 }
-/* APPROACH 2  Iterative
+/* APPROACH 2  Iterative DFS
 1. Model the problem as a directed graph where each bomb is a node.
 2. Add an edge from bomb `i` to bomb `j` if `i` can detonate `j`.
 3. Perform DFS iteratively from each bomb to count detonations.
@@ -93,7 +93,7 @@ Space Complexity:
 - Total: O(N²) worst case.
 */
 
-class Solution { // Iterative DFS approach
+class Solution_Approach2_Iterative_DFS { // Iterative DFS approach
     public int maximumDetonation(int[][] bombs) {
         Map<Integer, List<Integer>> graph = new HashMap<>();
         int n = bombs.length;
@@ -147,5 +147,60 @@ class Solution { // Iterative DFS approach
         }
         
         return visited.size(); // Return total number of detonated bombs
+    }
+}
+
+/* Approach 3 : BFS Iterative
+*/
+
+class Solution { // Iterative BFS approach
+    public int maximumDetonation(int[][] bombs) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        int n = bombs.length;
+
+        // Step 1: Build a directed graph where an edge i -> j means bomb[i] can detonate bomb[j]
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(i == j) continue; // A bomb cannot trigger itself
+
+                int xi = bombs[i][0], yi = bombs[i][1], ri = bombs[i][2];
+                int xj = bombs[j][0], yj = bombs[j][1];
+
+                // Compute squared Euclidean distance to avoid precision errors with square root
+                long dist_ij_squared = (long)(xi - xj) * (xi - xj) + (long)(yi - yj) * (yi - yj);
+
+                // If bomb[i] can reach bomb[j], add a directed edge i -> j
+                if((long) ri * ri >= dist_ij_squared) {
+                    graph.computeIfAbsent(i, k -> new ArrayList<>()).add(j);
+                }
+            }
+        }
+
+        // Step 2: Try triggering each bomb and count max chain reaction
+        int maxDetonated = 0;
+        for(int i = 0; i < n; i++) {
+            int count = bfs(i, graph); // Start BFS from bomb[i]
+            maxDetonated = Math.max(maxDetonated, count);
+        }
+        return maxDetonated;
+    }
+
+    private int bfs(int start, Map<Integer, List<Integer>> graph) {
+        Queue<Integer> q = new ArrayDeque<>(); // BFS queue for processing bombs
+        Set<Integer> visited = new HashSet<>(); // Track visited bombs to avoid cycles
+
+        q.add(start); 
+        visited.add(start); // Mark starting bomb as visited
+
+        while(!q.isEmpty()) {
+            int bomb = q.poll(); // Process current bomb
+            for(int neighbor : graph.getOrDefault(bomb, new ArrayList<>())) {
+                if(!visited.contains(neighbor)) { 
+                    q.add(neighbor); // Add unvisited connected bomb to queue
+                    visited.add(neighbor); // Mark as visited
+                }
+            }
+        }
+        return visited.size(); // Return total bombs detonated in this chain
     }
 }
