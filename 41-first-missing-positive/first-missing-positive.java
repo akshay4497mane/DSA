@@ -1,11 +1,12 @@
 // Problem: Given an unsorted integer array, find the smallest missing positive integer.
 // Example: Input: [3,4,-1,1] -> Output: 2 | Input: [1,2,0] -> Output: 3
 
-// Time Complexity: O(n) - Single pass to mark seen numbers, single pass to find missing.
-// Space Complexity: O(n) - Extra boolean array of size n+1.
 
 class Solution {
-    public int firstMissingPositive(int[] nums) {
+    // Using boolean array of n size
+    // Time Complexity: O(n) - Single pass to mark seen numbers, single pass to find missing.
+    // Space Complexity: O(n) - Extra boolean array of size n+1.
+    public int firstMissingPositive_booleanArray(int[] nums) {
         int n = nums.length; // Grab array length once
         
         // Create boolean array to track seen positives from 1 to n
@@ -30,5 +31,43 @@ class Solution {
         
         // If all 1 to n are present, next positive (n+1) is the answer
         return n + 1;
+    }
+    /* 
+       Problem: Find the smallest missing positive integer in an unsorted array.
+       Time Complexity: O(n) (Single pass modifications + One pass marking + One pass checking)
+       Space Complexity: O(1) (In-place modification of the input array)
+    */
+    public int firstMissingPositive(int[] nums) {
+        int n = nums.length;
+        boolean seen1 = false;
+        
+        // Step 1: Normalize the array
+        // Mark presence of 1, and replace out-of-range numbers with 1.
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 1) seen1 = true; // Check if 1 exists
+            if (nums[i] <= 0 || nums[i] > n) nums[i] = 1; // Replace invalid values
+        }
+        
+        // If 1 is not found, it is the smallest missing positive number
+        if (!seen1) return 1;
+        
+        // Step 2: Use the array index as a hash to mark presence
+        for (int i = 0; i < n; i++) {
+            int index = Math.abs(nums[i]); // Get absolute value to find the index
+            if (index == n)
+                nums[0] = -Math.abs(nums[0]); // Mark presence of n using nums[0]
+            else
+                nums[index] = -Math.abs(nums[index]); // Mark presence of index
+        }
+        
+        // Step 3: Identify the missing number
+        for (int i = 1; i < n; i++) {
+            if (nums[i] > 0) return i; // First missing index
+        }
+        
+        // Special case: If nums[0] is positive, then n is missing
+        if (nums[0] > 0) return n; 
+        
+        return n + 1; // If all 1 to n exist, return n+1
     }
 }
