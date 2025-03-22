@@ -47,10 +47,10 @@ class Solution {
         return ans;
     }
 
-    /* Approach 2 : without delimiter | use 2 loops inside 
+    /* Approach 2 : without delimiter | use 2 loops inside | using reverse function
     
     */
-    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+    public List<List<Integer>> zigzagLevelOrder_Approach2(TreeNode root) {
         List<List<Integer>> ans = new ArrayList<>();
         if(root==null) return ans;
         Deque<TreeNode> q = new LinkedList<>();
@@ -67,6 +67,33 @@ class Solution {
             }
             if(leftToright == false){
                 Collections.reverse(levelList);
+            }
+            ans.add(levelList);
+            leftToright = !leftToright;
+        }
+        return ans;
+    }
+    /* Approach 3 : without delimiter | use 2 loops inside | WITHOUT REVERSE function
+    
+    */
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if(root==null) return ans;
+        Deque<TreeNode> q = new LinkedList<>();
+        q.addLast(root);
+        boolean leftToright = true;
+        while(!q.isEmpty()){
+            int size = q.size();
+            List<Integer> levelList = new ArrayList<>();
+            for(int i=0; i<size; i++){
+                TreeNode curr = q.removeFirst();
+                if( leftToright )
+                    levelList.addLast(curr.val);
+                else
+                    levelList.addFirst(curr.val);
+                
+                if(curr.left != null) q.addLast(curr.left);
+                if(curr.right != null) q.addLast(curr.right);
             }
             ans.add(levelList);
             leftToright = !leftToright;
