@@ -41,7 +41,7 @@ class Solution {
     public List<Integer> findDisappearedNumbers(int[] A) {
         int n=A.length;
         for(int i=0; i<n; i++){
-            int correctIndex = Math.abs(A[i])-1; // range is 1-N
+            int correctIndex = Math.abs(A[i])-1; // range is 1-N | Also A[i] may be negative because of our modification
             A[correctIndex] = -Math.abs(A[correctIndex]);
         }
         List<Integer> ans = new LinkedList<>();
