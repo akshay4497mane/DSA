@@ -44,6 +44,38 @@ class Solution {
         return maxSquareLen * maxSquareLen; // Return area of largest square
     }
 
+    private int maxSquare = 0; // Global variable to store max square side
+    int[][] memo;    
+    public int maximalSquare(char[][] A) {
+        int n = A.length, m = (n > 0) ? A[0].length : 0;
+        memo = new int[n][m];
+        for (int[] row : memo)
+            Arrays.fill(row, -1);
+        maxSquare = 0; // Reset maxSquare for each call
+        helper(A, n - 1, m - 1);
+        for(int i=0; i<n;i++){
+            for(int j=0; j<m ;j++)
+                System.out.print(memo[i][j] + " ");
+            System.out.print("\n");
+        }
+        return maxSquare * maxSquare; // Return area of largest square
+    }
+    private int helper(char[][] A, int i, int j) {
+        if (i < 0 || j < 0 ) return 0; // Base case: Out of bounds or '0'
+        if(memo[i][j] != -1 ) return memo[i][j];
+        // Recursively compute left, top, and diagonal top-left squares
+        int left = helper(A, i - 1, j);
+        int top = helper(A, i, j - 1);
+        int diag = helper(A, i - 1, j - 1);
+        int side = Math.min(Math.min(left, top), diag); // Compute max square size ending at (i, j)
+        if(A[i][j] == '1')
+            side = side+1;
+        else
+            side = 0;
+        maxSquare = Math.max(maxSquare, side); // Update global max square size
+        memo[i][j] = side;
+        return side; // Return max square side at (i, j)
+    }
     /*
     Dynamic Programming Approach:
     - Use a DP table where dp[i][j] represents the side length of the largest square ending at (i, j).
@@ -53,7 +85,7 @@ class Solution {
     Time Complexity: O(mn) - Single pass through the matrix.
     Space Complexity: O(mn) - Uses an additional DP matrix.
     */
-    public int maximalSquare(char[][] A) {
+    public int maximalSquare_DP(char[][] A) {
         int n = A.length, m = (n > 0) ? A[0].length : 0;
         int[][] dp = new int[n + 1][m + 1]; // DP table to store square sizes
         int maxSquareLen = 0; // Stores maximum square side length
