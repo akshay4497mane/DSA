@@ -1,19 +1,32 @@
-class Solution {
+/*
+Problem: Find two indices i, j in an array such that A[i] + A[j] = target sum.
+Sample Input: A = [2, 7, 11, 15], sumNeeded = 9
+Sample Output: [0, 1] (Since 2 + 7 = 9)
 
-    //Approach 1 : Take 2 for loops, whenever A[i] + A[j] = sum , return i,j | Time:O(N^2)
-    //Approach 2 : Take 1 for loop, search for sum-A[i] in rest of array, sort array, O(N log N) 
-    //Approach 3 : take 1 loop, use hashmap for O(1) search | Time : O(N)
-    public int[] twoSum(int[] nums, int sumNeeded) {
-        Map<Integer, Integer> hm = new HashMap<>(); // num, index
-        for(int i=0 ; i<nums.length ; i++ ){
-            int toFind = sumNeeded - nums[i];
-            hm.get(toFind);
-            if(hm.containsKey(toFind)){
-                int toFindIndex = hm.get(toFind);
-                return new int[]{i, toFindIndex};
+Alternative Approaches:
+1. Brute Force: Use two loops to check all pairs. O(N^2) time, O(1) space.
+2. Sorting + Binary Search: Sort array, use binary search for complement. O(N log N) time.
+3. HashMap: Store complements for O(1) lookup. O(N) time, O(N) space.
+*/
+
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    public int[] twoSum(int[] A, int sumNeeded) {
+        int n = A.length;
+        Map<Integer, Integer> map = new HashMap<>(); // Stores value -> index
+        
+        for (int i = 0; i < n; i++) {
+            int target = sumNeeded - A[i]; // Compute required complement
+            
+            if (map.containsKey(target)) { // If complement exists, return indices
+                return new int[]{map.get(target), i};
             }
-            hm.put(nums[i], i);            
+            
+            map.put(A[i], i); // Store current number and its index for future lookups
         }
-    return new int[2];
+        
+        return new int[]{-1, -1}; // Return invalid indices if no pair found
     }
 }
