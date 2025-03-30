@@ -1,6 +1,50 @@
 class Solution {
+/*
+    -Approach 1 (Brute force) : 3 loops, find all triplet
+    -Approach 2  : For every i element, find 2sum in rest of array with targetSum as -nums[i], remove duplicate elements in three places(for i, for left, for right)
+-Approach 3 :(leetcode editorial) : Use HashSet to store values,  Time,: O(N^2), SpaceO(N) space 
+For every i(0 to last),
+    Seen = New HashSet() 
+    for every j(i+1 to last), 
+        If hashSet.contains( - (A[i] + A[j] ) ) => 
+ add triplet
+        seen.add ( A[j] )
+*/
+    List<List<Integer>> ans = new ArrayList<>();    
+    public List<List<Integer>> threeSum(int[] A) {
+        Arrays.sort(A); //N log(N)
+        int n = A.length;
+        for(int i=0; i<n; i++){ // O(N)
+            if(A[i] > 0 ) break; //If the current value is greater than zero, break from the loop. Remaining values cannot form a triplet that sum to zero.
+            if(i!=0 && A[i]==A[i-1]) continue;
+            int targetPairSum = -1 * A[i];
+            System.out.println(i + " " + A[i] + " " + targetPairSum);
+            twoSum(A, targetPairSum, i);
+        }
+        return ans;
+    }
+    void twoSum(int[] A, int targetPairSum, int i){//search for values between i+1 to n-1
+        System.out.println("twoSum( " + i);
+        int left = i+1;
+        int right = A.length-1;
+        while(left < right){
+            if(A[left] + A[right] == targetPairSum){
+                ans.add( Arrays.asList( A[i], A[left], A[right]) );
+                System.out.println(A[i] + " " + A[left] + " " + A[right]);
+                while( left<right && A[left]==A[left+1]){
+                    ++left;
+                }
+                ++left; --right;
+            }else if( A[left] + A[right] < targetPairSum ){
+                left++;
+            }else{
+                right--;
+            }
+        }
+    }
+
     //Triplet sum to Zero / Time Complexity : O(N^2), Space: O(1)
-    public List<List<Integer>> threeSum(int[] nums) {
+    public List<List<Integer>> threeSum_Approach_Sorting_(int[] nums) {
         List<List<Integer>> ans = new ArrayList<>();
         Arrays.sort(nums); // O(N log N)
 
@@ -32,19 +76,6 @@ class Solution {
     }
 }
 
-
-/*
-Brute force: 
-    -Approach 1 : 3 loops, find all triplet
-    -Approach 2  : For every i element, find 2sum in rest of array with targetSum as -nums[i], remove duplicate elements in three places(for i, for left, for right)
--Approach 3 :(leetcode editorial) : Use HashSet to store values,  Time,: O(N^2), SpaceO(N) space 
-For every i(0 to last),
-    Seen = New HashSet() 
-    for every j(i+1 to last), 
-        If hashSet.contains( - (A[i] + A[j] ) ) => 
- add triplet
-        seen.add ( A[j] )
-*/
 class Solution2 {
     public List<List<Integer>> threeSum_Approach2(int[] nums) {
         Arrays.sort(nums);
