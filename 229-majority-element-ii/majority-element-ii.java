@@ -7,7 +7,7 @@ class Solution {
                 xCount++;
             }else if(A[i]==x){
                 xCount++;
-            }else if(yCount==0 ){
+            }else if(yCount==0 && A[i]!=x){
                 y=A[i];
                 yCount++;
             }else if(A[i]==y){
