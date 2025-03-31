@@ -2,12 +2,12 @@ class Solution {
     public List<Integer> majorityElement(int[] A) {
         int x = 0, xCount=0, y=0, yCount=0, n = A.length;
         for(int i=0; i<n; i++){
-            if(xCount==0 && A[i]!=y){
+            if(xCount==0 && A[i]!=y){ //ERROR IN FINDING THIS EDGE CASE
                 x= A[i];
                 xCount++;
             }else if(A[i]==x){
                 xCount++;
-            }else if(yCount==0 && A[i]!=x){
+            }else if(yCount==0 ){
                 y=A[i];
                 yCount++;
             }else if(A[i]==y){
@@ -19,7 +19,7 @@ class Solution {
         }
         xCount =0; yCount=0;
         for(int i=0;i<n; i++){
-            if(A[i]==x)
+            if(A[i]==x) //ERROR IN FINDING THIS EDGE CASE
                 xCount += (A[i]==x) ? 1 :0;
             else
                 yCount += (A[i]==y) ? 1 :0;
