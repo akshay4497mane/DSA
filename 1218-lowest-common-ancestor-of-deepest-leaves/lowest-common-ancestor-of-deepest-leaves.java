@@ -1,46 +1,51 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
+/*
+Problem: Find the lowest common ancestor (LCA) of the deepest leaves in a binary tree.
+
+Sample Input: [1,2,3,4,5,null,6,null,null,7]
+Sample Output: Node with value 2
+
+Approach: 
+- Use level-order traversal to get the leftmost and rightmost nodes at the deepest level.
+- Then find the LCA of those two nodes.
+
+Time Complexity: O(N)
+Space Complexity: O(H)
+*/
+
 class Solution {
     public TreeNode lcaDeepestLeaves(TreeNode root) {
-        //Find deepest leaves | first, last node in deepest level
-        Queue<TreeNode> q = new ArrayDeque<>();
+        Queue<TreeNode> q = new ArrayDeque<>(); // Queue for BFS
         q.add(root);
-        TreeNode curr, deepestLeft = null, deepestRight=null;
-        while(!q.isEmpty()){
-            int levelSize = q.size();
-            System.out.println("Level : ");
-            for(int i=0; i<levelSize; i++){
-                curr = q.remove();
-                if(i==0)deepestLeft = curr;
-                if(i==levelSize-1)deepestRight = curr;                
-                System.out.print(curr.val);
-                if(curr.left!=null) q.add(curr.left);
-                if(curr.right!=null) q.add(curr.right);
+
+        TreeNode curr, leftmostDeepLeaf = null, rightmostDeepLeaf = null;
+
+        while (!q.isEmpty()) {
+            int levelSize = q.size(); // Number of nodes at current level
+
+            for (int i = 0; i < levelSize; i++) {
+                curr = q.remove(); // Current node
+
+                if (i == 0) leftmostDeepLeaf = curr; // First node at this level
+                if (i == levelSize - 1) rightmostDeepLeaf = curr; // Last node at this level
+
+                if (curr.left != null) q.add(curr.left); // Add left child to queue if exists
+                if (curr.right != null) q.add(curr.right); // Add right child to queue if exists
             }
         }
-        //FIND LCA
-        System.out.println("Deep: " + deepestLeft.val + " " + deepestRight.val);
-        if(deepestLeft == deepestRight) return deepestLeft;
-        return LCA(root, deepestLeft, deepestRight);
+
+        if (leftmostDeepLeaf == rightmostDeepLeaf) return leftmostDeepLeaf; // Only one deepest node
+
+        return LCA(root, leftmostDeepLeaf, rightmostDeepLeaf); // Find LCA of both deepest nodes
     }
-    TreeNode LCA(TreeNode root, TreeNode p, TreeNode q){
-        if(root==null || root==p || root==q) return root;
-        TreeNode leftAns = LCA(root.left, p, q);
-        TreeNode rightAns = LCA(root.right, p, q);
-        if(leftAns!=null && rightAns != null) return root;
-        return (leftAns != null)? leftAns : rightAns;
+
+    TreeNode LCA(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) return root; // Base case
+
+        TreeNode leftAns = LCA(root.left, p, q); // Recur on left subtree
+        TreeNode rightAns = LCA(root.right, p, q); // Recur on right subtree
+
+        if (leftAns != null && rightAns != null) return root; // p and q found in different subtrees
+
+        return (leftAns != null) ? leftAns : rightAns; // Return non-null side
     }
 }
