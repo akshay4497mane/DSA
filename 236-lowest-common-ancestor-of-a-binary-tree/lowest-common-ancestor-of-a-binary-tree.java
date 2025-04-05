@@ -48,7 +48,7 @@ Now traverse all ancestors of Q from bottom to up, search in P, first find will 
 Approach 1 : Recursive(root, p, q) return boolean, find p-q in left, right and curr, return true, whenever  left + right + mid = 2 | 
 Time : O(N) , Space : O(height) ~ O(N)
 */
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    public TreeNode lowestCommonAncestor_approach1(TreeNode root, TreeNode p, TreeNode q) {
         helper(root, p, q);
         return this.ans;
     }
@@ -62,8 +62,8 @@ Time : O(N) , Space : O(height) ~ O(N)
             this.ans = root;
         return ( midAns + leftAns + rightAns > 0 );        
     }
-/*
-Fastest Recursive Solution :
+
+//Fastest Recursive Solution :
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q){
         if(root == null || root == p || root == q)  return root; //found Ans
         TreeNode left = lowestCommonAncestor(root.left, p, q);
@@ -71,6 +71,4 @@ Fastest Recursive Solution :
         if(left != null && right != null)   return root;
         return left != null ? left : right;
     }
-*/
-
 }
