@@ -17,43 +17,21 @@ class Node {
     }
 }
 */
+//Use HashMap to store copied 
 class Solution {
-        
-//Recusrsive DFS + Hashmap 
-    public Map<Node, Node> hmap = new HashMap<>();
-    public Node cloneGraph(Node node){
-        if(node==null) return null;
-        if(hmap.containsKey(node)) return hmap.get(node);
-        Node newNode = new Node(node.val, new ArrayList<>());
-        hmap.put(node, newNode);
-        for( Node nbr : node.neighbors)
-            newNode.neighbors.add( cloneGraph(nbr) );
-        return newNode;
-    }
-
-/*
-//Iterative BFS using Queue & Hashmap 
+    Map<Node, Node> map = new HashMap<>();
     public Node cloneGraph(Node node) {
-        if(node == null) return node;
-        Map<Node, Node> hmap = new HashMap<>(); // Old -> New Mapping
-        Queue<Node> q = new LinkedList<>();
-        Node newNode = new Node(node.val, new ArrayList<>());
-            hmap.put(node, newNode);
-            q.add(node);
-        while( q.size() > 0 ){
-            Node rem = q.remove();
-            Node newRem = hmap.get(rem);
-            for( Node nbr : rem.neighbors ){
-                if( hmap.containsKey(nbr) == false ){
-                    Node newNbr = new Node(nbr.val, new ArrayList<>());
-                    hmap.put( nbr, newNbr );
-                    q.add(nbr);
-                }
-                Node newNbr = hmap.get(nbr);
-                newRem.neighbors.add( newNbr );    
-            }
-        }
-        return newNode;
+        return dfs(node);
     }
-*/
+    Node dfs(Node node){
+        if(node==null)return node;
+        if(map.containsKey(node)) 
+            return map.get(node);
+        Node copy = new Node(node.val);
+        map.put(node, copy);
+        for(Node neigh : node.neighbors){
+            copy.neighbors.add(dfs(neigh));
+        }
+        return copy;
+    }   
 }
