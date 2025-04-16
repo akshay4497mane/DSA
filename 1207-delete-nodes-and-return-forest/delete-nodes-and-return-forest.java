@@ -14,23 +14,23 @@
  * }
  */
 class Solution {
-    List<TreeNode> ans;
-    Set<Integer> delete_set;
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
-        ans = new ArrayList<TreeNode>();
-        delete_set = new HashSet<Integer>();
-        for( Integer e : to_delete )
-            delete_set.add(e);
-        helper(root, true);
+        List<TreeNode> ans = new ArrayList<>();
+        Set<Integer> deleteSet = new HashSet<>();
+        for(int node : to_delete) deleteSet.add(node);
+        if(!deleteSet.contains(root.val)) ans.add(root);
+        dfs(root, ans, deleteSet);
         return ans;
     }
-    private TreeNode helper(TreeNode root, boolean isRoot){
-        if(root == null) return null;
-        boolean deleteFlag = delete_set.contains(root.val);
-        if( isRoot && !deleteFlag ) ans.add(root);
-        root.left = helper( root.left, deleteFlag );
-        root.right = helper( root.right, deleteFlag );
-        return deleteFlag ? null : root;
+    TreeNode dfs( TreeNode root, List<TreeNode> ans, Set<Integer> deleteSet ){ //post order DFS
+        if(root==null) return null;
+        root.left = dfs(root.left, ans, deleteSet);
+        root.right = dfs(root.right, ans, deleteSet);
+        if(deleteSet.contains(root.val)){
+            if(root.left != null) ans.add(root.left);
+            if(root.right != null) ans.add(root.right);
+            return null;
+        }
+        return root;
     }
-
 }
