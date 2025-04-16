@@ -38,13 +38,12 @@ class Solution1 {
 
 
 /*
-
-Approach: Use post-order DFS to delete nodes. 
+Approach 2 : Use post-order DFS to delete nodes. 
 Pass parent info to disconnect deleted nodes. 
 This version uses VOID return type, deletes in place. 
 O(n) time, O(h + d) space.
 */
-class Solution {
+class Solution2 {
     public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
         List<TreeNode> ans = new ArrayList<>(); // Stores roots of trees in forest
         Set<Integer> deleteSet = new HashSet<>(); // O(1) lookup for deletions
@@ -77,6 +76,30 @@ class Solution {
     }
 }
 
+/*
+Approach 3 : Passing IS_ROOT extra variable. Calling 
+*/
+class Solution {
+    List<TreeNode> ans;
+    Set<Integer> delete_set;
+    public List<TreeNode> delNodes(TreeNode root, int[] to_delete) {
+        ans = new ArrayList<TreeNode>();
+        delete_set = new HashSet<Integer>();
+        for( Integer e : to_delete )
+            delete_set.add(e);
+        helper(root, true);
+        return ans;
+    }
+    private TreeNode helper(TreeNode root, boolean isRoot){
+        if(root == null) return null;
+        boolean deleteFlag = delete_set.contains(root.val);
+        if( isRoot && !deleteFlag ) ans.add(root);
+        root.left = helper( root.left, deleteFlag );
+        root.right = helper( root.right, deleteFlag );
+        return deleteFlag ? null : root;
+    }
+
+}
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
