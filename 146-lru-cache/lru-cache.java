@@ -23,7 +23,7 @@
  * - O(capacity) for storing key-value pairs.
  */
 
-class LRUCache {
+class LRUCache_1 {
     int capacity;
     Map<Integer, DLLNode> map; // HashMap to store key-node pairs for O(1) access
     DLLNode head, tail; // Dummy head and tail nodes for easier operations
@@ -45,7 +45,7 @@ class LRUCache {
     /**
      * Initialize the LRUCache with a given capacity.
      */
-    public LRUCache(int capacity) {
+    public LRUCache_1(int capacity) {
         this.capacity = capacity;
         map = new HashMap<>();
         
@@ -53,6 +53,7 @@ class LRUCache {
         head = new DLLNode(-1, -1, null, null);
         tail = new DLLNode(-1, -1, head, null);
         head.next = tail;
+        tail.prev = head;
     }
 
     /**
@@ -106,6 +107,37 @@ class LRUCache {
     void removeFromDLL(DLLNode node) {
         node.prev.next = node.next;
         node.next.prev = node.prev;
+    }
+}
+
+
+//APPROACH 2 : Using JAVA LinkedHashMap
+class LRUCache {
+    int capacity;  
+    LinkedHashMap<Integer, Integer> dic; // Maintains insertion order and allows LRU eviction
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        dic = new LinkedHashMap<>(5, 0.75f, true) { 
+            // 5 -> Initial capacity (not related to LRU, just a starting size)
+            // 0.75f -> Load factor (controls resizing, 0.75 means resize at 75% full)
+            // true -> Access-order mode (moves recently accessed keys to the end)
+            
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Integer, Integer> eldest) {
+                // eldest -> The oldest entry (first inserted or least recently accessed)
+                // Automatically removes the eldest entry if size exceeds capacity
+                return size() > capacity;
+            }
+        };
+    }
+
+    public int get(int key) {
+        return dic.getOrDefault(key, -1); // Returns value if exists, else -1
+    }
+
+    public void put(int key, int value) {
+        dic.put(key, value); // Inserts key-value pair, moves key to end if exists
     }
 }
 
