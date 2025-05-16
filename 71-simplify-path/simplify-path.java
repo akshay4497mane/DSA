@@ -1,5 +1,5 @@
 class Solution {
-    public String simplifyPath(String path) {
+    public String simplifyPath_withoutSplit(String path) {
         int i=0;
         Stack<String> st = new Stack<>();
         StringBuilder curr = new StringBuilder();
@@ -29,5 +29,24 @@ class Solution {
         }
         if(ans.length()==0) return "/";
         return ans.toString();
+    }
+    public String simplifyPath(String path) {
+        Stack<String> st = new Stack<>();
+        String[] paths = path.split("/");
+        for(String dir : paths){
+            if( dir.equals(".") || dir.isEmpty() ){
+                continue;
+            }else if( dir.equals("..")){
+                if(!st.isEmpty())
+                    st.pop();
+            }else{
+                st.push(dir);
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for(String dir : st){
+            sb.append("/").append(dir);
+        }
+        return sb.length()>0? sb.toString() : "/";
     }
 }
