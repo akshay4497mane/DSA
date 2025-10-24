@@ -1,18 +1,23 @@
 class Solution {
     public void moveZeroes(int[] nums) {
-        int i = 0, j = 0, N = nums.length;
-
-        while (j < N) {
-            if (nums[j] != 0) {
-                // swap only if i and j are different
-                if (i != j) {
-                    int temp = nums[i];
-                    nums[i] = nums[j];
-                    nums[j] = temp;
-                }
-                i++;
+        int nextNonZeroPos = 0;
+        for (int curr = 0; curr < nums.length; curr++) {
+            if (nums[curr] == 0) continue;
+            if (curr != nextNonZeroPos) {
+                int temp = nums[nextNonZeroPos];
+                nums[nextNonZeroPos] = nums[curr];
+                nums[curr] = temp;
             }
-            j++;
+            nextNonZeroPos++;
         }
     }
+/*
+    public void moveZeroes(int[] nums) {
+        int pos = 0; // next place to put non-zero
+        for (int num : nums) {
+            if (num != 0) nums[pos++] = num;
+        }
+        while (pos < nums.length) nums[pos++] = 0;
+    }
+*/
 }
