@@ -49,7 +49,7 @@ class Solution {
     Time: O(N)
     Space: O(1)
     */
-    public int findMaxConsecutiveOnes(int[] nums) {
+    public int findMaxConsecutiveOnes_3(int[] nums) {
         int n = nums.length;
         int maxLen = 0;
         
@@ -85,6 +85,42 @@ class Solution {
         return maxLen;
     }
 
+  /*
+    Approach 3.2 (Optimized O(N)):
+    Precompute consecutive 1s to the left and right of each index.
+    For each 0, maxLen = left[i-1] + 1 + right[i+1].
+    */
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int n = nums.length;
+        int[] left = new int[n];
+        int[] right = new int[n];
+        
+        // count consecutive 1s to the left of each index
+        for (int i = 1; i < n; i++) {
+            if (nums[i-1] == 1)
+                left[i] = left[i-1] + 1;
+        }
+
+        // count consecutive 1s to the right of each index
+        for (int i = n - 2; i >= 0; i--) {
+            if (nums[i+1] == 1)
+                right[i] = right[i+1] + 1;
+        }
+
+        int maxLen = 0;
+        boolean hasZero = false;
+        
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                hasZero = true;
+                int total = left[i] + 1 + right[i];
+                maxLen = Math.max(maxLen, total);
+            }
+        }
+
+        // if array has no zero, entire array is max sequence
+        return hasZero ? maxLen : n;
+    }
 /*
 Approach 3:
 --> For each 0, coun 1's before and 1s after- > calculate ans, Keep track of max
