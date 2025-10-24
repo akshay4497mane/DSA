@@ -1,5 +1,9 @@
 class Solution {
-    public int findMaxConsecutiveOnes(int[] nums) {
+    /*
+    Approach : Try all possible subarrays, count longest length such that numZeros <=1 
+    Time : O(N^2) | Space : O(N) 
+    */
+    public int findMaxConsecutiveOnes_1(int[] nums) {
         int longestSequence = 0;
         for(int left=0; left<nums.length; left++){
             int numZeroes=0;
@@ -9,6 +13,30 @@ class Solution {
                 if(numZeroes<=1)
                     longestSequence = Math.max(longestSequence, right-left+1);
             }
+        }
+        return longestSequence;
+    }
+    /*
+    Approach2 : sliding window(left-right)
+    expand toward right,
+    check if valid sequence, if yes update ans and continue right
+    if no valid, increment left
+    valid Sequence : numZeroes<=1
+    Time : O(N) | Space : O(1)
+    */
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int longestSequence =0;
+        int left=0, right=0, numZeroes = 0;
+        while(right<nums.length){
+            if(nums[right]==0) numZeroes++;
+            //if window is invalid, increment from left untill window becomes valid
+            while( numZeroes==2 ){
+                if( nums[left]==0 )
+                    numZeroes--;
+                left++;
+            }
+            longestSequence = Math.max(longestSequence, right-left+1);
+            right++;
         }
         return longestSequence;
     }
