@@ -33,8 +33,8 @@ class Solution {
                     dp[i][j] = 0 + dp[i + 1][j + 1]; // If characters match, move to next pair
                 } else {
                     dp[i][j] = 1 + Math.min(
-                        Math.min(dp[i + 1][j],    // delete current char from word1
-                                 dp[i][j + 1]),   // insert char from word2
+                            Math.min(dp[i + 1][j],    // delete current char from word1
+                                    dp[i][j + 1]),   // insert char from word2
                                  dp[i + 1][j + 1]  // replace word1[i] with word2[j]
                     );
                 }
