@@ -25,7 +25,7 @@ Keep track of longest sequence
         }
         return false;
     }
-/* Approach 2 : Optimize arrayContains using HashSet | Dont try for num if num-1 is already part of longest sequence
+/* Approach 2 : Optimize search using HashSet | Dont try for num if num-1 is already part of longest sequence
 Time( O(N) ) | O(N) space
 consider each num, 
 Try to start sequence from there,
@@ -39,7 +39,7 @@ Keep track of longest sequence
         }
 
         int longestStreak = 0;
-        for(int num : numSet){
+        for(int num : numSet){//if we iterate in Array(nums) i gets TLE
             int currNum = num;
             int currStreak = 1;
             if(!numSet.contains(currNum-1)){
@@ -48,6 +48,27 @@ Keep track of longest sequence
                     currStreak += 1;
                 }
                 longestStreak = Math.max(longestStreak, currStreak);
+            }
+        }
+        return longestStreak;
+    }
+/*
+Approach 3 :
+Sort elements and then count sequences where nums[i] == nums[i-1]+1
+*/
+    public int longestConsecutive_3(int[] nums) {
+        if(nums.length == 0) return 0;
+        Arrays.sort(nums);
+        int longestStreak = 1;
+        int currStreak = 1;
+        for(int i=1; i<nums.length; i++){
+            if( nums[i] != nums[i-1] ){
+                if( nums[i] == nums[i-1]+1 ){
+                    currStreak += 1;
+                }else{
+                    longestStreak = Math.max(longestStreak, currStreak);
+                    currStreak = 1;
+                }
             }
         }
         return longestStreak;
