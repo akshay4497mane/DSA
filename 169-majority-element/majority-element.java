@@ -18,8 +18,9 @@ Time : O(N^2) | Space : O(N)
     }
 /*
 Approach 2: Use hashmap to store counts
+Time complexity : O(N) | Space : O(N)
 */
-    public int majorityElement(int[] A) {
+    public int majorityElement_2(int[] A) {
         Map<Integer, Integer> map = new HashMap<>();
         for(int num : A){
             map.put( num, map.getOrDefault(num, 0)+1);
@@ -30,6 +31,14 @@ Approach 2: Use hashmap to store counts
                 return entry.getKey();
         }
         return -1;        
+    }
+/*
+Approach 3 : Sorting | majority element always at n/2
+Time : O(N log N) | space
+*/
+    public int majorityElement(int[] A) {
+        Arrays.sort(A);
+        return A[A.length/2];
     }
 
 /*
