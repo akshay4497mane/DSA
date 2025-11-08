@@ -19,4 +19,19 @@ Time : O(N)
         }
         return ans;
     }
+    public static int maxArea_Optimized(int[] height) {
+        int maxArea = 0;
+        int len = height.length;
+        int i = 0, j = len - 1;
+        while(i < j){
+            int lowest = height[i] < height[j] ? height[i] : height[j];
+            int area = lowest * (j - i);
+            maxArea = area > maxArea ? area : maxArea;
+
+            while(i < len && height[i] <= lowest) i++;
+            while(j > i && height[j] <= lowest) j--;
+        }
+
+        return maxArea;
+    }    
 }
