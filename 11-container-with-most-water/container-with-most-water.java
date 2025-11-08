@@ -1,4 +1,10 @@
 class Solution {
+/*
+Approach : 2 Pointer approach
+L, R
+Water = height * length = Math.min(height[L], height[R]) * (R-L);
+Time : O(N)
+*/
     public int maxArea(int[] height) {
         int N = height.length, L = 0, R = N-1, ans =0;
         while(L<R){ 
