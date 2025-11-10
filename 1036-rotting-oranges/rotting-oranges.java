@@ -1,9 +1,62 @@
+import java.util.Queue;
+import java.util.LinkedList;
+
+class Solution {
+    public int orangesRotting(int[][] A) {
+        int R = A.length, C = A[0].length;
+        int fresh = 0;
+        Queue<int[]> q = new LinkedList<>();
+        for (int r = 0; r < R; r++) {
+            for (int c = 0; c < C; c++) { // fixed: use C
+                if (A[r][c] == 1) fresh++;
+                else if (A[r][c] == 2) q.add(new int[]{r, c});
+            }
+        }
+
+        if (fresh == 0) return 0; // nothing to rot
+
+        int minutes = 0;
+        int[][] dir = {{0,-1}, {1,0}, {0,1}, {-1,0}};
+        while (!q.isEmpty()) {
+            int size = q.size();
+            boolean anyRottedThisMinute = false;
+            for (int i = 0; i < size; i++) {
+                int[] cur = q.remove();
+                int x = cur[0], y = cur[1];
+                for (int[] d : dir) {
+                    int nx = x + d[0], ny = y + d[1];
+                    if (nx >= 0 && nx < R && ny >= 0 && ny < C && A[nx][ny] == 1) {
+                        A[nx][ny] = 2;
+                        fresh--;
+                        q.add(new int[]{nx, ny});
+                        anyRottedThisMinute = true;
+                    }
+                }
+            }
+            if (anyRottedThisMinute) minutes++;
+            if (fresh == 0) return minutes;
+        }
+        return -1;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 import java.util.Queue;
 import java.util.ArrayDeque;
 import javafx.util.Pair; // Import Pair class (if using JavaFX)
 */
-class Solution {
+class Solution_2 {
 
     // Function to calculate the time required to rot all oranges
     public int orangesRotting(int[][] grid) {
@@ -87,7 +140,7 @@ Comments:
 - `directions`: Represents movement in 4 possible directions (up, right, down, left).
 - `isWithinGridBounds`: Validates grid boundaries during traversal.
 
-Suggested for Revision:
+Suggested for Revision::
 - Practice using BFS for grid-based problems like island finding or shortest paths.
 - Understand how to optimize BFS by avoiding redundant checks for already processed cells.
 */
