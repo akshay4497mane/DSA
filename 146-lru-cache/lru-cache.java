@@ -1,3 +1,59 @@
+//Revision 12 Nov 2025
+class LRUCache {
+    int capacity;  
+    Map<Integer, Node> map = new HashMap<>();
+    Node head, tail;
+
+    class Node{
+        int key,value;
+        Node prev, next;
+        Node(int k, int v, Node p, Node n){
+            key = k; value=v; prev =p; next=n;
+        }
+    }
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        head = new Node(-1,-1, null, null);
+        tail = new Node(-1,-1, head, null);
+        head.next = tail;
+    }
+
+    public int get(int key) {
+        if(map.containsKey(key)){
+            Node node = map.get(key);
+            deleteDLLNode(node);
+            addToDLLAtLast(node);
+            return node.value;
+        }else{
+            return -1;
+        }
+    }
+
+    public void put(int key, int value) {
+        if(map.containsKey(key)){
+            deleteDLLNode(map.get(key));          
+            map.remove(key);
+        }
+        Node node = new Node(key, value, null, null);
+        map.put(key, node);
+        addToDLLAtLast(node);
+        if(map.size() > capacity){
+            map.remove(head.next.key);
+            deleteDLLNode(head.next);
+        }
+    }
+    void addToDLLAtLast(Node node){
+        tail.prev.next = node;
+        node.prev = tail.prev;
+        node.next = tail;
+        tail.prev = node;
+    }
+    void deleteDLLNode(Node node){
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+}
+
 /**
  * Problem Statement:
  * Implement an LRU (Least Recently Used) Cache with a given capacity.
@@ -112,11 +168,11 @@ class LRUCache_1 {
 
 
 //APPROACH 2 : Using JAVA LinkedHashMap
-class LRUCache {
+class LRUCache_2 {
     int capacity;  
     LinkedHashMap<Integer, Integer> dic; // Maintains insertion order and allows LRU eviction
 
-    public LRUCache(int capacity) {
+    public LRUCache_2(int capacity) {
         this.capacity = capacity;
         dic = new LinkedHashMap<>(5, 0.75f, true) { 
             // 5 -> Initial capacity (not related to LRU, just a starting size)
