@@ -33,7 +33,7 @@ class Solution {
     - Use Stack<Integer> to keep track of current depth
     Time: O(N) / Space O(log N)
     */
-    public int maxDepth(TreeNode root) {
+    public int maxDepth_DFS(TreeNode root) {
         if (root == null) return 0;
         LinkedList<TreeNode> stackNodes = new LinkedList<>();
         LinkedList<Integer> stackDepths = new LinkedList<>();
@@ -58,14 +58,14 @@ Algorithm:
 4. Repeat until all levels are processed and return the depth.
 Time: O(N) / Space O(log N)
     */
-    public int maxDepth_BFS(TreeNode root) {
+    public int maxDepth(TreeNode root) {
         if (root == null) return 0;
         Queue<TreeNode> q = new ArrayDeque<>();
         q.add(root);
-        int depth=0, levelSize =0;
+        int depth=0;
         TreeNode curr = null;
         while(!q.isEmpty()){
-            levelSize = q.size();
+            int levelSize = q.size();
             for(int i=0; i<levelSize; i++){
                 curr = q.remove();
                 if( curr.left != null ) q.add(curr.left);
