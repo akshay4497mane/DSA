@@ -21,13 +21,13 @@ class Solution {
         Stack<TreeNode> st = new Stack<>();
         TreeNode curr = root; //Step1 : initialize curr to Root
         while(curr!= null || !st.isEmpty()){ // Step2 : While curr Not null, Stack NOT Empty
-            while(curr!=null){ //Go root > left > left untill null
+            while(curr!=null){ //step 3 : Go root > left > left untill null
                 st.push(curr);
                 curr = curr.left;
             }
             curr = st.pop();
-            ans.add(curr.val);
-            curr = curr.right;
+            ans.add(curr.val); //step 4 : print ans/ add to list
+            curr = curr.right; //step 5 go 1 step to right
         }
         return ans;
     }
