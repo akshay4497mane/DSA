@@ -1,3 +1,14 @@
+/*
+new class of Triplet of Integer
+Queue ->  Node, row, col
+step 1 : BFS() ->  AnsList(col, row, val of node) Global variable
+
+root->Left col--, row++
+root->right col++, row++
+ 
+ step2 : Sort triplets -> Col, Row, Val) | use lambda & integer.compare
+*/
+
 class Triplet<F, S, T> {
     public final F first;
     public final S second;
@@ -83,6 +94,18 @@ class Solution {
             }
         }
         output.add(currColumn);
+
+        /*
+        //Step 3
+        Map<Integer, List<Integer>> map = new TreeMap<>();
+        for (Triplet<Integer, Integer, Integer> t : nodeList) {
+            int col = t.first;
+            int val = t.third;
+
+            map.computeIfAbsent(col, k -> new ArrayList<>()).add(val);
+        }
+        return new ArrayList<>(map.values());
+        */
 
         return output;
     }
