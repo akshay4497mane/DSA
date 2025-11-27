@@ -13,9 +13,9 @@ class Solution {
             ans.add(sb.toString());
         } else {
             sb.append("->");
-            helper(root.left, sb);
-            helper(root.right, sb);
         }
+        helper(root.left, sb);
+        helper(root.right, sb);        
         sb.setLength(len);   // rollback to parent state
     }
 }
