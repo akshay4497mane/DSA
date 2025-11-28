@@ -3,6 +3,8 @@ class Solution {
 Approach: Binary Search
 Ans will lie between (positive)1...9(max of array)
 Video Aryan : https://www.youtube.com/watch?v=wIFX0quUQBw
+Time complexity: O(nlogk) : O(N) for isPossible, O(log K) for Binary search 1..K
+Space complexity: O(1)
 */
     public int minimumSize(int[] nums, int maxOperations) {
         int left = 1, right = Arrays.stream(nums).max().getAsInt(), mid, ans=right;
