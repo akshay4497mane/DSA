@@ -116,14 +116,18 @@ Time complexity: O(M⋅logM + M⋅N) = O(M * N)
         return ans;
     }
 
+    /*
+    Let N be the number of rooms.
+    Let M be the number of meetings.
+    Time complexity: O(M⋅logM + M⋅logN + N⋅logN)
+*/
     public int mostBooked(int n, int[][] meetings) {
         var meetingCount = new int[n];
         var usedRooms = new PriorityQueue<long[]>((a, b) -> a[0] != b[0] ? Long.compare(a[0], b[0]) : Long.compare(a[1], b[1]));
-        var unusedRooms = new PriorityQueue<Integer>();
-
-        for (int i = 0; i < n; i++) {
+        // For every used Room [TimeWhenFree, index]
+        var unusedRooms = new PriorityQueue<Integer>(); //Index of unused Room
+        for (int i = 0; i < n; i++)
             unusedRooms.offer(i);
-        }
 
         Arrays.sort(meetings, (a, b) -> a[0] != b[0] ? Integer.compare(a[0], b[0]) : Integer.compare(a[1], b[1]));
 
