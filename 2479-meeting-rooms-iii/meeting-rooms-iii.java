@@ -6,7 +6,7 @@ Let NNN be the number of rooms.
 Let MMM be the number of meetings.
 Time complexity: O(M⋅logM+M⋅N)
 */
-    public int mostBooked_1(int n, int[][] meetings) {
+    public int mostBooked(int n, int[][] meetings) {
         long[] roomFreeTime = new long[n];//At what time each ROOM will be free?
         int[] meetCount = new int[n]; //COUNT of meetings in every room
         Arrays.sort(meetings, (a,b) -> a[0] - b[0] );//SORT based on START time
@@ -14,18 +14,18 @@ Time complexity: O(M⋅logM+M⋅N)
         for( int[] meet : meetings ){
             int start = meet[0], end = meet[1];
             boolean foundUnusedRoomFlag = false;
-            //if all rooms are busy, Find EARLIEST Free Room
-            long minRoomFreeTime = Long.MAX_VALUE; int minRoomFreeIndex = 0; 
+            long minRoomFreeTime = Long.MAX_VALUE; int minRoomFreeIndex = 0; //if all rooms are busy, Find EARLIEST Free Room
             for( int i=0; i<n ;i++ ){//for each rooms
                 if( roomFreeTime[i] <= start ){
                     foundUnusedRoomFlag = true;
                     meetCount[i]++;
                     roomFreeTime[i] = end;
                     break;
-                }
-                if( minRoomFreeTime > roomFreeTime[i] ){ //Find MINIMUM / earliest free room
-                    minRoomFreeTime = roomFreeTime[i];
-                    minRoomFreeIndex = i;
+                }else{
+                    if( minRoomFreeTime > roomFreeTime[i] ){ //Find MINIMUM / earliest free room
+                        minRoomFreeTime = roomFreeTime[i];
+                        minRoomFreeIndex = i;
+                    }
                 }
             }
             if( !foundUnusedRoomFlag ){ //if NO room Found, Calculate wait time for EARLIEST/MINIMuM room
@@ -43,15 +43,12 @@ Time complexity: O(M⋅logM+M⋅N)
         return maxMeetCountRoomIndex;
     }
 
-    public int mostBooked(int n, int[][] meetings) {
+    public int mostBooked_2(int n, int[][] meetings) {
         long[] freeAt = new long[n];   // when each room becomes free
         int[] used = new int[n];       // meeting count per room
-
         Arrays.sort(meetings, (a, b) -> a[0] - b[0]);
-
         for (int[] m : meetings) {
-            int start = m[0];
-            int end = m[1];
+            int start = m[0], end = m[1];
 
             int freeRoom = -1;
             long earliestTime = Long.MAX_VALUE;
