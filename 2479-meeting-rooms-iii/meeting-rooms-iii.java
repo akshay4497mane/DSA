@@ -2,11 +2,12 @@ class Solution {
 //Time complexity: O(M⋅logM+M⋅logN)O(M\cdot logM + M\cdot logN)O(M⋅logM+M⋅logN). 
 
 /*
+Step 1 : Sort Array based on Start Time.
 Let NNN be the number of rooms.
 Let MMM be the number of meetings.
-Time complexity: O(M⋅logM+M⋅N)
+Time complexity: O(M⋅logM + M⋅N) = O(M * N)
 */
-    public int mostBooked(int n, int[][] meetings) {
+    public int mostBooked_1(int n, int[][] meetings) {
         long[] roomFreeTime = new long[n];//At what time each ROOM will be free?
         int[] meetCount = new int[n]; //COUNT of meetings in every room
         Arrays.sort(meetings, (a,b) -> a[0] - b[0] );//SORT based on START time
@@ -42,7 +43,7 @@ Time complexity: O(M⋅logM+M⋅N)
         return maxMeetCountRoomIndex;
     }
     //combined 2 loops
-    public int mostBooked_11(int n, int[][] meetings) {
+    public int mostBooked_2(int n, int[][] meetings) {
         long[] roomFreeTime = new long[n];//At what time each ROOM will be free?
         int[] meetCount = new int[n]; //COUNT of meetings in every room
         Arrays.sort(meetings, (a,b) -> a[0] - b[0] );//SORT based on START time
@@ -77,7 +78,7 @@ Time complexity: O(M⋅logM+M⋅N)
         return maxMeetCountRoomIndex;
     }
 
-    public int mostBooked_2(int n, int[][] meetings) {
+    public int mostBooked_3(int n, int[][] meetings) {
         long[] freeAt = new long[n];   // when each room becomes free
         int[] used = new int[n];       // meeting count per room
         Arrays.sort(meetings, (a, b) -> a[0] - b[0]);
@@ -114,5 +115,48 @@ Time complexity: O(M⋅logM+M⋅N)
         }
         return ans;
     }
+
+    public int mostBooked(int n, int[][] meetings) {
+        var meetingCount = new int[n];
+        var usedRooms = new PriorityQueue<long[]>((a, b) -> a[0] != b[0] ? Long.compare(a[0], b[0]) : Long.compare(a[1], b[1]));
+        var unusedRooms = new PriorityQueue<Integer>();
+
+        for (int i = 0; i < n; i++) {
+            unusedRooms.offer(i);
+        }
+
+        Arrays.sort(meetings, (a, b) -> a[0] != b[0] ? Integer.compare(a[0], b[0]) : Integer.compare(a[1], b[1]));
+
+        for (int[] meeting : meetings) {
+            int start = meeting[0], end = meeting[1];
+
+            while (!usedRooms.isEmpty() && usedRooms.peek()[0] <= start) {
+                int room = (int) usedRooms.poll()[1];
+                unusedRooms.offer(room);
+            }
+
+            if (!unusedRooms.isEmpty()) {
+                int room = unusedRooms.poll();
+                usedRooms.offer(new long[]{end, room});
+                meetingCount[room]++;
+            } else {
+                long roomAvailabilityTime = usedRooms.peek()[0];
+                int room = (int) usedRooms.poll()[1];
+                usedRooms.offer(new long[]{roomAvailabilityTime + end - start, room});
+                meetingCount[room]++;
+            }
+        }
+
+        int maxMeetingCount = 0, maxMeetingCountRoom = 0;
+        for (int i = 0; i < n; i++) {
+            if (meetingCount[i] > maxMeetingCount) {
+                maxMeetingCount = meetingCount[i];
+                maxMeetingCountRoom = i;
+            }
+        }
+
+        return maxMeetingCountRoom;
+    }  
+
 
 }
