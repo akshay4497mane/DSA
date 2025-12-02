@@ -19,6 +19,7 @@ Time O(N) | Space: O(N)
         }
         return maxScore;
     }
+    //O(1) memory
     public int maxScoreSightseeingPair(int[] values) {
         int n = values.length;
         //int[] maxLeftScore = new int[n];
