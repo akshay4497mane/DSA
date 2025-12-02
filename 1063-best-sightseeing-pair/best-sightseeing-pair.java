@@ -6,7 +6,7 @@ Score(i,j) = vali + valj + i -j = (vali + i)  + (valj - j)
 for every j = 
 Time O(N) | Space: O(N)
 */
-    public int maxScoreSightseeingPair(int[] values) {
+    public int maxScoreSightseeingPair_1(int[] values) {
         int n = values.length;
         int[] maxLeftScore = new int[n];
         maxLeftScore[0] = values[0] + 0;
@@ -19,4 +19,17 @@ Time O(N) | Space: O(N)
         }
         return maxScore;
     }
+    public int maxScoreSightseeingPair(int[] values) {
+        int n = values.length;
+        //int[] maxLeftScore = new int[n];
+        int maxLeftScore = values[0] + 0;
+        int maxScore = 0;
+        for (int j = 1; j < n; j++) {
+            int currRightScore = values[j]-j;
+            maxScore = Math.max(maxScore, maxLeftScore + currRightScore);
+            int currLeftScore = values[j] + j;
+            maxLeftScore = Math.max(maxLeftScore, currLeftScore);
+        }
+        return maxScore;
+    }    
 }
