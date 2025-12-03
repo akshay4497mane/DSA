@@ -4,19 +4,17 @@
 3. DP Tabulation ( DP Bottom Up)
 */
 class Solution {
-    int[] DP; int[] days, cost;
+    int[] DP, days, cost;
     int firstDay, lastDay;
     Set<Integer> travelSet = new HashSet<>();
     public int mincostTickets(int[] d,int[] c){ 
         days = d; cost = c;
-        firstDay = days[0];
-        lastDay = days[days.length-1];
-        DP = new int[lastDay+1];
-        Arrays.fill(DP, -1);
+        firstDay = days[0]; lastDay = days[days.length-1];
+        DP = new int[lastDay+1]; Arrays.fill(DP, -1);
         for(int day : days) travelSet.add(day);
-        return dfs(1);
+        return dfs(firstDay);
     }
-    int dfs(int currDay){
+    int dfs(int currDay){ //Recursion + Memoization / Top Down DP
         if(currDay > lastDay) return 0;   //Dont make it >= OR ==
         if(DP[currDay] != -1) return DP[currDay]; //This may give ArrayIndexOut of Bound
         if(travelSet.contains(currDay)){
