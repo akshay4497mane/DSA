@@ -1,13 +1,53 @@
-// Problem: Determine if all courses can be finished given prerequisite pairs
+/*
+Problem: Determine if all courses can be finished given prerequisite pairs
 // Sample Input: numCourses = 2, prerequisites = [[1,0]]
 // Sample Output: true
-
 // Approach: Topological sort using Kahn's Algorithm to detect cycles
 // Time Complexity: O(V + E) where V = numCourses, E = prerequisites.length
 // Space Complexity: O(V + E)
-
+*/
 class Solution {
+    //04/12/2025 Practice
     public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for(int i=0; i<numCourses; i++)
+            graph.put(i, new ArrayList<Integer>());
+        int[] indegree = new int[numCourses];
+        for(int[] perq : prerequisites){
+            graph.get(perq[1]).add(perq[0]);
+            indegree[perq[0]]++;
+        }
+        Queue<Integer> q = new ArrayDeque<>();
+        for(int i=0; i<numCourses; i++)
+            if(indegree[i]==0)
+                q.add(i);
+        List<Integer> topoOrder = new ArrayList<>(); 
+        while(!q.isEmpty()){
+            int currCourse = q.remove();
+            topoOrder.add(currCourse);
+            for(int neighbor : graph.get(currCourse)){
+                if(--indegree[neighbor] == 0)
+                    q.add(neighbor);
+            }
+        }
+        if(topoOrder.size() == numCourses) return true;
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public boolean canFinish_2(int numCourses, int[][] prerequisites) {
         List<List<Integer>> graph = new ArrayList<>(); // Graph to represent course dependencies
 
         for (int i = 0; i < numCourses; i++) {
