@@ -29,10 +29,40 @@ class Solution {
             return DP[currDay]=dfs(currDay + 1);
         }
     }
+/*
+int[] DP, days, cost;
+int firstDay, lastDay;
+Set<Integer> travelSet = new HashSet<>();
+DP Approach : Right --> Left
+*/
+public int mincostTickets(int[] d,int[] c){
+    days=d; cost=c;
+    firstDay=days[0]; 
+    lastDay=days[days.length-1];
+
+    DP=new int[lastDay+31]; // +30 safe buffer
+    for(int day:days) travelSet.add(day);
+
+    for(int currDay=lastDay; currDay>=firstDay; currDay--){
+        if(travelSet.contains(currDay)){
+            int cost1=cost[0]+DP[currDay+1];
+            int cost7=cost[1]+DP[currDay+7];
+            int cost30=cost[2]+DP[currDay+30];
+            DP[currDay]=Math.min(cost1,Math.min(cost7,cost30));
+        }else{
+            DP[currDay]=DP[currDay+1];
+        }
+    }
+    return DP[firstDay];
+}
+    
+    
+    
 /* Bottom up DP : 
 dp[day] = Min(dp[day - 1] + costs[0], dp[day - 7] + costs[1], dp[day - 30] + costs[2];
+DP Approach : Left -> Right
 */
-    public int mincostTickets(int[] travelDays, int[] ticketCosts) {
+    public int mincostTickets_LeftToRight(int[] travelDays, int[] ticketCosts) {
         int finalTravelDay = travelDays[travelDays.length - 1];
         int[] minCostTillDay = new int[finalTravelDay + 1];
         int travelIndex = 0;
