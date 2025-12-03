@@ -1,32 +1,40 @@
 class Solution {
-    public int[] findOrder(int numCourses, int[][] prerequisites) {        
-        ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-        for(int i=0; i<numCourses; i++) //construct graph
-            graph.add(new ArrayList<>());
+    /*
+    1. Build Graph adjacency List
+    2. build indegree[] array for each v
+    3. Collect vertex where indegree is 0 all where 
+     */
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        Map<Integer, ArrayList<Integer>> graph = new HashMap<>();
         int[] indegree = new int[numCourses];
-        for(int i=0;i<prerequisites.length; i++){
-            graph.get(prerequisites[i][1]).add(prerequisites[i][0]);//[1] is pre requisite for [0]
-            indegree[prerequisites[i][0]]++;
+        for(int i=0; i<numCourses; i++)
+            graph.put(i, new ArrayList<Integer>());
+        for( int[] perq : prerequisites ){
+            graph.computeIfAbsent(perq[1], (k) -> new ArrayList<Integer>()).add(perq[0]);
+            indegree[perq[0]]++;
         }
-        Queue<Integer> q = new ArrayDeque<>();
+
         for(int i=0; i<numCourses; i++){
-            if( indegree[i] == 0)
-                q.add(i);
+            //System.out.println(i + ": No of edges : " + graph.get(i).size());
+            System.out.println(i + ": indegree: " + indegree[i]);
         }
-        int topoLength = 0;
-        int[] ans = new int[numCourses]; //Storing Topological Sort Order of Vertices
-        while(q.size() > 0 ){
-            int rem = q.remove();
-            ans[topoLength++] = rem;
-            for( int v : graph.get(rem) ){
-                indegree[v]--;
-                if(indegree[v] == 0)
-                    q.add(v);
+
+        Queue<Integer> q = new ArrayDeque<>();
+        for(int i=0; i<numCourses; i++) //collect all where indegree=0
+            if(indegree[i]==0)
+                q.add(i);
+        List<Integer> ans = new ArrayList<>();
+        while(!q.isEmpty()){
+            int currV = q.remove();
+            ans.add(currV);
+            for(int neighbor : graph.get(currV)){
+                if(--indegree[neighbor] == 0)
+                    q.add(neighbor);
             }
         }
-        if(topoLength == numCourses)
-            return ans;
-        else
-            return new int[0];
+        for(int i=0; i<numCourses; i++) //collect all where indegree=0
+            if(indegree[i]!=0)
+                return new int[]{};
+        return ans.stream().mapToInt(Integer::intValue).toArray();
     }
 }
