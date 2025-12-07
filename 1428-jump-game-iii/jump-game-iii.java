@@ -1,5 +1,9 @@
 class Solution {
-    public boolean canReach(int[] arr, int start) {
+    /* BFS
+    Time O(N) | Space : O(N) 
+    With Boolean Visited Array
+    */
+    public boolean canReach_1(int[] arr, int start) {
         int n = arr.length;
         boolean[] visited = new boolean[n];
         Queue<Integer> q = new LinkedList<>();
@@ -40,5 +44,13 @@ class Solution {
             arr[node] = -arr[node];// mark as visited
         }
         return false;
+    }
+
+    //DFS 
+    public boolean canReach(int[] arr, int start) {
+        if (start<0 || start >= arr.length || arr[start] < 0) return false;  //BASE Case
+        if (arr[start] == 0) return true;
+        arr[start] = -arr[start];
+        return ( canReach(arr, start + arr[start]) || canReach(arr, start - arr[start]));
     }
 }
