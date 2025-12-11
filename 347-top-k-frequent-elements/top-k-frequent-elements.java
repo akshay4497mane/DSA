@@ -1,12 +1,11 @@
 class Solution {
-    /*Approach 1: Using Priority Queue
+/*
+Approach 1: Using Priority Queue
     Time complexity : O(N+Nlogk)
     Space complexity : O(N+k)    
     1. HashMap ( num -> freq)
     2. Min Heap of size k /Priority Queue to store top K
-    Time complexity: O(N + N logK )
-     */
-
+*/
      //Approach 1 : using min Heap of int[] num, freq
     public int[] topKFrequent_1(int[] nums, int k) {
         Map<Integer, Integer> freq = new HashMap<>();
@@ -65,14 +64,25 @@ class Solution {
         }
         return top;
     }
-    /* 
-    Approach 3 : using Bucket Sort | O(N)
+    /*
+     * Approach 3 : Bucket Sort Approach for Top-K Frequent Elements
+     * Intuition: max frequency possible is bounded by N(nums.length).
+     thus we will only need N buckets for each Frequency -> 
+     For each Frequency -> we store list of numbers
+     step 1 : Count frequencies
+     step 2 : Create buckets for each frequency -> store List<numbers>
+     step 3 : Traverse from high freq → low freq until k elements collected
+     *
+     * Time Complexity:  O(N)
+     * Space Complexity: O(N)
+     */
 
-    */
     public int[] topKFrequent(int[] nums, int k) {
+        //step 1 : Count frequencies
         Map<Integer, Integer> freq = new HashMap<>();
-        for(int num : nums)
+        for(int num : nums)      
             freq.put(num, 1+freq.getOrDefault(num,0));
+        //step 2 : Create buckets for each frequency -> store List<numbers>
         int N = nums.length;
         List<Integer>[] freqArr = new ArrayList[N+1];
         for(Map.Entry<Integer,Integer> entry : freq.entrySet()){
@@ -81,6 +91,7 @@ class Solution {
                 freqArr[numFreq] = new ArrayList<>();
             freqArr[numFreq].add(num);
         }
+     //step 3 : Traverse from high freq → low freq until k elements collected
         int[] ans = new int[k];
         int ansInd = 0;
         for(int i = N; i>=0; i--){
