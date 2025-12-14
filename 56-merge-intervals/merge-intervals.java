@@ -1,11 +1,35 @@
-
+/* 
+Read Revision : 20 Nov 2025
+1. Sort using lambda, Integer.compare
+2. use ArrayList/LinkedList due 
+3. convert ArrayList -> Array | give Size
+*/
 class Solution {
+    /*
+    Approach : 
+    */
     public int[][] merge(int[][] intervals) {
-          Arrays.sort(intervals, (a , b) -> {
-            return a[0] - b[0];
-        });
-        
-        ArrayList<int[]> list = new ArrayList<>();
+        Arrays.sort(intervals, (a,b) -> Integer.compare(a[0], b[0]));
+        int i = 0, N=intervals.length;
+        List<int[]> ans = new ArrayList<>();
+        for(int[] interval : intervals){
+            if( ans.isEmpty() || ans.getLast()[1] < interval[0]){
+                ans.add(interval);
+            }else{ //overlap => start = ans.getLast()[0] | end = Max()
+                ans.getLast()[1] = Math.max(ans.getLast()[1], interval[1]);
+            }
+        }
+        return ans.toArray(new int[ans.size()][2]);
+    }
+
+
+
+
+/*
+    public int[][] merge(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> { return a[0] - b[0];} );
+        //Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        List<int[]> list = new ArrayList<>();
         for(int[] interval: intervals){
             if(list.size() == 0){
                 list.add(interval);
@@ -18,11 +42,9 @@ class Solution {
                 }
             }
         }
-        
-        return list.toArray(new int[list.size()][]);
+        return list.toArray(new int[list.size()][]); //Size is important
     }
 }
-
 class Solution_2 {
     public int[][] merge(int[][] intervals) {
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
@@ -44,4 +66,5 @@ class Solution_2 {
         }
         return merged.toArray(new int[merged.size()][]);
     }
+*/
 }
