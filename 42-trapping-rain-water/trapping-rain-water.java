@@ -1,7 +1,74 @@
 class Solution {
+    //min(Lmax, Rmax) - currHeight
+    public int trap(int[] height) {
+        int N = height.length;
+        int[] LMAX = new int[N], RMAX = new int[N];
+        int currMax = height[0];
+        for(int i=0;i<N; i++){
+            currMax = Math.max(currMax, height[i]);
+            LMAX[i] = currMax;
+        }
+        currMax = height[N-1];
+        for(int i=N-1;i>=0; i--){
+            currMax = Math.max(currMax, height[i]);
+            RMAX[i] = currMax;
+        }
+        int sumAns = 0;
+        for(int i=0; i<N;i++){
+            sumAns += Math.min(LMAX[i], RMAX[i]) - height[i];
+        }
+        return sumAns;
+        /*
+        for(int i=0; i<N;i++){
+            System.out.print(LMAX[i] + " ");
+        }
+        System.out.println(" ");
+        for(int i=0; i<N;i++){
+            System.out.print(RMAX[i] + " ");
+        }*/
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Revision 8 Nov 2025 //Coding 12 Nov
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Approach 3 : Two Pointer Approach | Time : O(N) | Space: O(1)
 */
-    public int trap(int[] height) {
+    public int trap_approach3(int[] height) {
         int N = height.length, ans = 0, left=0, right=N-1, leftMax = 0, rightMax = 0;
         while( left < right ){
             if( height[left] < height[right] ){
