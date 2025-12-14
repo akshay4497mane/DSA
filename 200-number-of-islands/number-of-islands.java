@@ -14,9 +14,10 @@ Approach 1: DFS Flood Fill // Time: O(m*n), Space: O(m*n) recursion stack
 class Solution {
     public int numIslands(char[][] grid) {
         int ansCount = 0;
+        visited = new boolean[grid.length][grid[0].length];
         for(int i=0 ;i<grid.length; i++){
             for(int j=0; j<grid[0].length; j++){
-                if(grid[i][j]=='1'){
+                if(grid[i][j]=='1' && visited[i][j]==false){
                     dfs(i,j, grid);
                     ansCount++;
                 }
@@ -25,23 +26,18 @@ class Solution {
         return ansCount;    
     }
     int[][] directions = {{-1,0},{+1,0}, {0,-1}, {0,+1}};
+    boolean[][] visited;
     void dfs(int i, int j, char[][] grid){
-        if(i<0 || i>=grid.length || j<0 || j>=grid[0].length || grid[i][j]=='0') 
+        if(i<0 || i>=grid.length || j<0 || j>=grid[0].length || grid[i][j]=='0' || visited[i][j]==true) 
             return;
         System.out.println("dfs("+i + ", " + j + " Setting 1->0");
-        grid[i][j] = '0';
+        //grid[i][j] = '0';
+        visited[i][j] = true;
         for(int[] dir : directions){
             dfs(i+dir[0], j+dir[1], grid);
         }        
     }
 }
-/*
-dfs(0,0)
-[["1","1","1","1","0"],
- ["1","1","0","1","0"],
- ["1","1","0","0","0"],
- ["0","0","0","0","0"]]
-*/
 
 class Solution2 {
     private static final int[][] dir = {
