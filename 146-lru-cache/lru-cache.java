@@ -1,124 +1,5 @@
-class LRUCache {
-    Map<Integer, Node> cache = new HashMap<>();
-    int cacheSize;
-    Node head, tail;
-    class Node{
-        int key, val;
-        Node prev, next;
-        Node(int k, int v, Node p, Node n){
-            key=k; val = v; prev =p; next = n;
-        }
-    }
-    public LRUCache(int capacity) {
-        cacheSize = capacity;
-        head = new Node(-1,-1, null, null);
-        tail = new Node(-1,-1, null, null);
-        head.next = tail; tail.prev = head;        
-    }
-    public int get(int key) {
-        if(!cache.containsKey(key)) return -1;
-        Node node = cache.get(key);
-        deleteDLLNode(node);
-        insertNodeAtLast(node);
-        return node.val;
-    }
-    public void put(int key, int value) {
-        if( cache.containsKey(key) ){
-            Node node = cache.get(key);
-                node.val = value;
-            deleteDLLNode(node);
-            insertNodeAtLast(node);
-        }else{
-            if(cacheSize == cache.size()){//if capacity crossed delete from front
-                Node node = head.next;
-                cache.remove(node.key);
-                deleteDLLNode(node);
-            }
-            //else{       //add Node at last  //DONT USE ELSE
-                Node node = new Node( key, value, null,null);
-                cache.put(key, node);
-                insertNodeAtLast( node );
-            //}
-        }
-    }
-    void deleteDLLNode(Node node){
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
-    }
-    void insertNodeAtLast(Node node){
-        node.next = tail;
-        node.prev = tail.prev;
-        tail.prev.next = node;
-        tail.prev = node;
-    }
-}
-
-
-
-/**
- * Your LRUCache object will be instantiated and called as such:
- * LRUCache obj = new LRUCache(capacity);
- * int param_1 = obj.get(key);
- * obj.put(key,value);
- */
-
- 
-
-//Revision 12 Nov 2025
-class LRUCache_3 {
-    int capacity;  
-    Map<Integer, Node> map = new HashMap<>();
-    Node head, tail;
-
-    class Node{
-        int key,value;
-        Node prev, next;
-        Node(int k, int v, Node p, Node n){
-            key = k; value=v; prev =p; next=n;
-        }
-    }
-    public LRUCache_3(int capacity) {
-        this.capacity = capacity;
-        head = new Node(-1,-1, null, null);
-        tail = new Node(-1,-1, head, null);
-        head.next = tail;
-    }
-
-    public int get(int key) {
-        if(map.containsKey(key)){
-            Node node = map.get(key);
-            deleteDLLNode(node);
-            addToDLLAtLast(node);
-            return node.value;
-        }else{
-            return -1;
-        }
-    }
-
-    public void put(int key, int value) {
-        if(map.containsKey(key)){
-            deleteDLLNode(map.get(key));          
-            map.remove(key);
-        }
-        Node node = new Node(key, value, null, null);
-        map.put(key, node);
-        addToDLLAtLast(node);
-        if(map.size() > capacity){
-            map.remove(head.next.key);
-            deleteDLLNode(head.next);
-        }
-    }
-    void addToDLLAtLast(Node node){
-        tail.prev.next = node;
-        node.prev = tail.prev;
-        node.next = tail;
-        tail.prev = node;
-    }
-    void deleteDLLNode(Node node){
-        node.prev.next = node.next;
-        node.next.prev = node.prev;
-    }
-}
+//Revision 15 DEC 2025, Wrote Code
+//Revision 12 Nov 2025, Wrote Code
 
 /**
  * Problem Statement:
@@ -145,11 +26,10 @@ class LRUCache_3 {
  * - O(capacity) for storing key-value pairs.
  */
 
-class LRUCache_1 {
+class LRUCache {
     int capacity;
     Map<Integer, DLLNode> map; // HashMap to store key-node pairs for O(1) access
     DLLNode head, tail; // Dummy head and tail nodes for easier operations
-
     /**
      * Doubly Linked List (DLL) Node
      */
@@ -167,10 +47,9 @@ class LRUCache_1 {
     /**
      * Initialize the LRUCache with a given capacity.
      */
-    public LRUCache_1(int capacity) {
+    public LRUCache(int capacity) {
         this.capacity = capacity;
         map = new HashMap<>();
-        
         // Create dummy head and tail nodes to simplify operations
         head = new DLLNode(-1, -1, null, null);
         tail = new DLLNode(-1, -1, head, null);
@@ -202,7 +81,6 @@ class LRUCache_1 {
         if (map.containsKey(key)) {
             removeFromDLL(map.get(key)); // Remove existing node
         }
-
         DLLNode node = new DLLNode(key, value, null, null);
         map.put(key, node); // Insert into HashMap
         addToTailDLL(node); // Move to the most recently used position
@@ -262,10 +140,3 @@ class LRUCache_2 {
         dic.put(key, value); // Inserts key-value pair, moves key to end if exists
     }
 }
-
-/**
- * Example Usage:
- * LRUCache obj = new LRUCache(capacity);
- * int param_1 = obj.get(key);
- * obj.put(key, value);
- */
