@@ -1,5 +1,71 @@
-//Revision 12 Nov 2025
 class LRUCache {
+    Map<Integer, Node> cache = new HashMap<>();
+    int cacheSize;
+    Node head, tail;
+    class Node{
+        int key, val;
+        Node prev, next;
+        Node(int k, int v, Node p, Node n){
+            key=k; val = v; prev =p; next = n;
+        }
+    }
+    public LRUCache(int capacity) {
+        cacheSize = capacity;
+        head = new Node(-1,-1, null, null);
+        tail = new Node(-1,-1, null, null);
+        head.next = tail; tail.prev = head;        
+    }
+    public int get(int key) {
+        if(!cache.containsKey(key)) return -1;
+        Node node = cache.get(key);
+        deleteDLLNode(node);
+        insertNodeAtLast(node);
+        return node.val;
+    }
+    public void put(int key, int value) {
+        if( cache.containsKey(key) ){
+            Node node = cache.get(key);
+                node.val = value;
+            deleteDLLNode(node);
+            insertNodeAtLast(node);
+        }else{
+            if(cacheSize == cache.size()){//if capacity crossed delete from front
+                Node node = head.next;
+                cache.remove(node.key);
+                deleteDLLNode(node);
+            }
+            //else{       //add Node at last  //DONT USE ELSE
+                Node node = new Node( key, value, null,null);
+                cache.put(key, node);
+                insertNodeAtLast( node );
+            //}
+        }
+    }
+    void deleteDLLNode(Node node){
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+    void insertNodeAtLast(Node node){
+        node.next = tail;
+        node.prev = tail.prev;
+        tail.prev.next = node;
+        tail.prev = node;
+    }
+}
+
+
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
+
+ 
+
+//Revision 12 Nov 2025
+class LRUCache_3 {
     int capacity;  
     Map<Integer, Node> map = new HashMap<>();
     Node head, tail;
@@ -11,7 +77,7 @@ class LRUCache {
             key = k; value=v; prev =p; next=n;
         }
     }
-    public LRUCache(int capacity) {
+    public LRUCache_3(int capacity) {
         this.capacity = capacity;
         head = new Node(-1,-1, null, null);
         tail = new Node(-1,-1, head, null);
