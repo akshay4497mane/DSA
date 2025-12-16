@@ -1,3 +1,4 @@
+//Sliding Window: L=0, R=0, ans=0 | While(R<N) | While window invalid L++
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         int l=0,r=0, ans=0, N=s.length();
@@ -15,28 +16,6 @@ class Solution {
         return ans;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 class Solution1 {
 /*
@@ -58,9 +37,8 @@ public int lengthOfLongestSubstring(String s) {
             L = lastSeen[ch] + 1;
 
         lastSeen[ch] = R;              // update last seen position
-
-        // new window size = R - L + 1
-        ans = Math.max(ans, R - L + 1);
+        
+        ans = Math.max(ans, R - L + 1); // Update Ans | new window size = R - L + 1
     }
     return ans;
 }
