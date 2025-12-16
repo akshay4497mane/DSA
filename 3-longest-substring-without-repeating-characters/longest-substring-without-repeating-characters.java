@@ -1,5 +1,47 @@
 class Solution {
-/*Sliding Window, Untill window has unique characters
+    public int lengthOfLongestSubstring(String s) {
+        int l=0,r=0, ans=0, N=s.length();
+        Set<Character> set = new HashSet<>();
+        while(r<N){
+            char ch = s.charAt(r);
+            while(l<r && set.contains(ch)){
+                set.remove(s.charAt(l));
+                l++;
+            }
+            set.add(ch);
+            ans = Math.max(ans, r-l+1);
+            r++;
+        }
+        return ans;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution1 {
+/*
+14Nov2025
+Sliding Window, Untill window has unique characters
 Time O(N), Space : O(128)
 */
 public int lengthOfLongestSubstring(String s) {
