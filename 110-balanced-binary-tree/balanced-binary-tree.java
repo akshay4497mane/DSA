@@ -15,13 +15,39 @@
  */
 class Solution {
     public boolean isBalanced(TreeNode root) {
+        if(-1 == depth(root))
+            return false;
+        else
+            return true;
+    }
+    int depth(TreeNode root){ //return -1 if unbalanced | otherwise return depth
+        if(root == null) return 0;
+        int L = depth(root.left);
+        int R = depth(root.right);
+        if( L==-1 || R==-1 || Math.abs(L-R) > 1)
+            return -1;        
+        return 1 + Math.max(L,R);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public boolean isBalanced_old(TreeNode root) {
         if(root ==null) return true;
         if( depth(root) == -1)
             return false;
         else
             return true;
     }
-    int depth(TreeNode root){
+    int depth1(TreeNode root){
         if(root ==null) return 0;
         int L = depth(root.left);
         int R = depth(root.right);
