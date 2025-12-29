@@ -1,12 +1,12 @@
 class Solution {
 /*
-Approach 1 :
+Approach 1:
 -> Only Prefix of shortest string can be a GCD.( longer string can never be answer )
 -> So we try out all prefixes of shortest string. eg. //str1 = "ABABAB", str2 = "ABAB" | --> k = 4,3,2,1 => ABAB, ABA, AB, A
 -> Since we need LONGEST, we traverse from RIGHT to LEFT(4,3,2,1).
 -> use replace(base,"") to make both strings empty.
-Time : O(min(m,n)⋅(m+n)).
-Space complexity: O(min(m,n))
+Time  : O(min(m,n)⋅(m+n)).
+Space : O(min(m,n))
 */
     public String gcdOfStrings_1(String s1, String s2) {
         int len1 = s1.length(), len2 = s2.length();
@@ -27,11 +27,11 @@ Space complexity: O(min(m,n))
             return s1.replace(base, "").isEmpty() && s2.replace(base, "").isEmpty();
         }
     }
+
 /*
 Here’s the complete visualization in one compact table for input
 str1 = "ABABAB", str2 = "ABAB"
-
-i	base (prefix of str1)	len1 % i	len2 % i	str1.replace(base,"")	str2.replace(base,"")	valid?	reason
+i	base(prefix of str1)	len1 % i	len2 % i	str1.replace(base,"")	str2.replace(base,"")	valid?	reason
 4	"ABAB"	2	0	—	—	false	len1 not divisible by 4
 3	"ABA"	0	1	—	—	false	len2 not divisible by 3
 2	"AB"	0	0	""	""	true	both strings = repeat of "AB"
