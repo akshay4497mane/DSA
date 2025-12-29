@@ -1,18 +1,3 @@
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
     public boolean isBalanced(TreeNode root) {
         return (-1 == depth(root)) ? false : true;
@@ -25,35 +10,6 @@ class Solution {
             return -1;
         else        
             return 1 + Math.max(L,R);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    public boolean isBalanced_old(TreeNode root) {
-        if(root ==null) return true;
-        if( depth(root) == -1)
-            return false;
-        else
-            return true;
-    }
-    int depth1(TreeNode root){
-        if(root ==null) return 0;
-        int L = depth(root.left);
-        int R = depth(root.right);
-        if( L==-1 || R == -1)
-            return -1;
-        if( Math.abs(L-R) > 1)
-            return -1;
-        return 1 + Math.max( L, R ); 
     }
     /*
     public boolean isBalanced(TreeNode root) {
@@ -72,3 +28,19 @@ class Solution {
     }
     */
 }
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
