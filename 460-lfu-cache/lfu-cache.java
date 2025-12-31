@@ -1,6 +1,17 @@
+/*
+Create 2 HashMaps
+1. key -> Node(freq, val)
+2. Freq -> [key1,key2]
+1 -> 
+2 -> akshay,  y,z
+3 -> g
+Maintain minFreq , capacity
+Create Node class( key, value, freq)
+
+*/
 class LFUCache {
     Map<Integer, Node> cache = new HashMap<>(); //key -> Node(freq, val)
-    Map<Integer, LinkedHashSet<Integer>> freqMap = new HashMap<>(); //Freq -> [key1,key2]
+    Map<Integer, LinkedHashSet<Integer>> freqMap = new HashMap<>(); //Freq -> [key1,key2, key3]
     int minFreq;
     int capacity;
     class Node{
@@ -15,14 +26,13 @@ class LFUCache {
         this.capacity = capacity;
         minFreq = 0; // 0 or 1 or Integer.MIN_VALUE? 
     }
-    
     public int get(int key) {
         if( !cache.containsKey(key) ) return -1;
         Node node = cache.get(key);
         updateFreq(node);
         return node.val;
     }
-    void updateFreq( Node node )  {//Only when key exist | Dont call for insertion
+    void updateFreq( Node node ) {//Only when key exist | Dont call for insertion
         freqMap.get(node.freq).remove(node.key);
         if( node.freq == minFreq && freqMap.get(minFreq).isEmpty() ){
             minFreq++;
