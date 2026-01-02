@@ -1,8 +1,6 @@
 import java.util.*;
-
 class Solution {
-
-    Map<String, Set<String>> parent = new HashMap<>();
+    Map<String, Set<String>> parent = new HashMap<>(); //hit -> hot -> dot  => (dot -> hot , hot -> hit )
     List<List<String>> res = new ArrayList<>();
     String begin;
 
@@ -34,11 +32,9 @@ class Solution {
         while (!q.isEmpty() && !found) {
             int size = q.size();
             Set<String> levelVisited = new HashSet<>();
-
             for (int s = 0; s < size; s++) {
                 String word = q.poll();
                 char[] arr = word.toCharArray();
-
                 for (int i = 0; i < len; i++) {
                     char old = arr[i];
                     for (char c = 'a'; c <= 'z'; c++) {
