@@ -1,9 +1,20 @@
-import java.util.*;
+/*
+Word Ladder – BFS revision (copy-paste)
+1. Use BFS → guarantees shortest path
+2. Use Set as both dictionary + visited
+3. Remove word when ENQUEUED (not dequeued)
+4. Process level-by-level → steps++ after each level
+5. Generate neighbors by changing one char at a time
+6. Reuse same char[]; restore after mutation
+7. Skip same character replacement
+8. Each word visited once → avoids TLE
+ */
 
+
+import java.util.*;
 class Pair {
     String word;
     int steps;
-
     Pair(String word, int steps) {
         this.word = word;
         this.steps = steps;
