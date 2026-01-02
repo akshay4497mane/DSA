@@ -42,15 +42,12 @@ class Solution {
                         arr[i] = c;
                         String next = new String(arr);
 
-                        if (!dict.contains(next)) continue;
-
-                        parent
-                            .computeIfAbsent(next, x -> new HashSet<>())
-                            .add(word);
-
-                        if (levelVisited.add(next)) {
-                            if (next.equals(endWord)) found = true;
-                            q.offer(next);
+                        if ( dict.contains(next) ){
+                            parent.computeIfAbsent(next, x -> new HashSet<>()).add(word);
+                            if (levelVisited.add(next)) {
+                                if (next.equals(endWord)) found = true;
+                                q.offer(next);
+                            }
                         }
                     }
                     arr[i] = old;
