@@ -1,4 +1,4 @@
-class Solution {
+class Solution_1 {
     /* APPROACH 1 : convert num to string, apply mapping on each char, convert to integer, sort, calculate answer using old nums indices stored  in a map of number, index
     */
     public int[] sortJumbled_UsingString(int[] mapping, int[] nums) {
@@ -47,40 +47,41 @@ class Solution {
         return mapped;
     }
 }
-/*
-public int[] sortJumbled(int[] mapping, int[] nums) {
-    int n = nums.length;
-    List<Item> list = new ArrayList<>(n); // pre-size
-    for (int i = 0; i < n; i++) {
-        list.add(new Item(nums[i], getMapped(nums[i], mapping), i));
+
+//Creating separate ITEM[num, mappedNum, index] class
+class Solution {
+    public int[] sortJumbled(int[] mapping, int[] nums) {
+        int n = nums.length;
+        List<Item> list = new ArrayList<>(n); // pre-size
+        for (int i = 0; i < n; i++) {
+            list.add(new Item(nums[i], getMapped(nums[i], mapping), i));
+        }
+        // Sort by mapped value, if tie → original order (stable behavior)
+        list.sort((a, b) -> a.mapped == b.mapped ? Integer.compare(a.index, b.index): Long.compare(a.mapped, b.mapped));
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            ans[i] = list.get(i).num;
+        }
+        return ans;
     }
-    // Sort by mapped value, if tie → original order (stable behavior)
-    list.sort((a, b) -> a.mapped == b.mapped ? Integer.compare(a.index, b.index)
-                                            : Long.compare(a.mapped, b.mapped));
-    int[] ans = new int[n];
-    for (int i = 0; i < n; i++) {
-        ans[i] = list.get(i).num;
+    private long getMapped(int num, int[] map) {
+        if (num == 0) return map[0];
+        long mapped = 0, place = 1;
+        while (num > 0) {
+            mapped += (long)map[num % 10] * place;
+            place *= 10;
+            num /= 10;
+        }
+        return mapped;
     }
-    return ans;
+    class Item {
+        int num;
+        long mapped;
+        int index;
+        Item(int num, long mapped, int index) {
+            this.num = num;
+            this.mapped = mapped;
+            this.index = index;
+        }
+    }
 }
-private long getMapped(int num, int[] map) {
-    if (num == 0) return map[0];
-    long mapped = 0, place = 1;
-    while (num > 0) {
-        mapped += (long)map[num % 10] * place;
-        place *= 10;
-        num /= 10;
-    }
-    return mapped;
-}
-class Item {
-    int num;
-    long mapped;
-    int index;
-    Item(int num, long mapped, int index) {
-        this.num = num;
-        this.mapped = mapped;
-        this.index = index;
-    }
-}
-*/
