@@ -1,5 +1,5 @@
 class Solution {
-    /* APPROACH 1 : convert num to string, apply mapping on each char, convert to integer, sort, calculate answer using old nums indices stored in a map of number, index
+    /* APPROACH 1 : convert num to string, apply mapping on each char, convert to integer, sort, calculate answer using old nums indices stored  in a map of number, index
     */
     public int[] sortJumbled_UsingString(int[] mapping, int[] nums) {
         List<Integer[]> numToIndexMap = new ArrayList<>();// List of array[mappedNumber , index]
@@ -20,34 +20,67 @@ class Solution {
         }
         return ans;
     }
+
     /*
     APPROACH 2 : without converting to string.
      */
     public int[] sortJumbled(int[] mapping, int[] nums) {
-        List<int[]> numToIndexMap = new ArrayList<>();
-        for(int i=0; i<nums.length; i++){
-            int mappedNum = 0, currDigit = 1;
-            int num = nums[i];
-            if( num == 0 ){
-                numToIndexMap.add( new int[] {mapping[0], i} );
-                continue;
-            }
-            while( num!=0 ){
-                mappedNum += currDigit * mapping[ num%10 ];
-                currDigit = currDigit * 10;
-                num = num/10;
-            }
-            numToIndexMap.add( new int[] {mappedNum, i});
+        List<int[]> list = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            list.add(new int[]{getMapped(nums[i], mapping), i});
         }
-        Collections.sort(numToIndexMap, (a,b) -> a[0]-b[0] );
-
+        list.sort((a, b) -> Integer.compare(a[0], b[0]));
         int[] ans = new int[nums.length];
-        System.out.println("numToIndexMap : ");
-        numToIndexMap.forEach(arr -> System.out.print(Arrays.toString(arr)) );
-
-        for(int i=0; i<numToIndexMap.size(); i++){
-            ans[i] = nums[ numToIndexMap.get(i)[1] ];
+        for (int i = 0; i < list.size(); i++) {
+            ans[i] = nums[list.get(i)[1]];
         }
         return ans;
     }
+    private int getMapped(int num, int[] mapping) {
+        if (num == 0) return mapping[0];
+        int mapped = 0, place = 1;
+        while (num > 0) {
+            mapped += mapping[num % 10] * place;
+            place *= 10;
+            num /= 10;
+        }
+        return mapped;
+    }
 }
+/*
+public int[] sortJumbled(int[] mapping, int[] nums) {
+    int n = nums.length;
+    List<Item> list = new ArrayList<>(n); // pre-size
+    for (int i = 0; i < n; i++) {
+        list.add(new Item(nums[i], getMapped(nums[i], mapping), i));
+    }
+    // Sort by mapped value, if tie → original order (stable behavior)
+    list.sort((a, b) -> a.mapped == b.mapped ? Integer.compare(a.index, b.index)
+                                            : Long.compare(a.mapped, b.mapped));
+    int[] ans = new int[n];
+    for (int i = 0; i < n; i++) {
+        ans[i] = list.get(i).num;
+    }
+    return ans;
+}
+private long getMapped(int num, int[] map) {
+    if (num == 0) return map[0];
+    long mapped = 0, place = 1;
+    while (num > 0) {
+        mapped += (long)map[num % 10] * place;
+        place *= 10;
+        num /= 10;
+    }
+    return mapped;
+}
+class Item {
+    int num;
+    long mapped;
+    int index;
+    Item(int num, long mapped, int index) {
+        this.num = num;
+        this.mapped = mapped;
+        this.index = index;
+    }
+}
+*/
