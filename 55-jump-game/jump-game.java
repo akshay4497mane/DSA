@@ -15,13 +15,12 @@ class Solution1 {
         return dfs(0, nums);
     }
 }
-
 /*
 2) DP + Memo (Top-Down)
 Avoid recomputing using memo.
 Time: O(n²), Space: O(n)
 */
-class Solution {
+class Solution2 {
     Boolean[] memo;
     boolean dfs(int i, int[] a) {
         if (i >= a.length-1) return true;
@@ -43,7 +42,7 @@ If at any point i > reach, we got stuck → false.
 Finally check if reach covers last index.
 Time: O(n), Space: O(1)
 */
-class Solution3 {
+class Solution {
     public boolean canJump(int[] a) {
         int reach = 0;
         for (int i = 0; i < a.length; i++) {
