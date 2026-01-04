@@ -46,11 +46,18 @@ class Solution {
         return false;
     }
 
-    //DFS 
+/*
+DFS Traversal
+Time complexity: O(N)
+No of recursive calls 2^N
+but visited array of size N => work is done only in O(N)
+To mark visited make -1 * arr[i]
+*/
     public boolean canReach(int[] arr, int start) {
-        if (start<0 || start >= arr.length || arr[start] < 0) return false;  //BASE Case
+        //Without Visited array | DFS will go in infinite cycles | infinite recursion loop 
+        if (start<0 || start >= arr.length || arr[start] < 0) return false;  //BASE Case | arr[i] is negative => visited=true
         if (arr[start] == 0) return true;
-        arr[start] = -arr[start];
+        arr[start] = -arr[start]; //mark visited
         return ( canReach(arr, start + arr[start]) || canReach(arr, start - arr[start]));
     }
 }
