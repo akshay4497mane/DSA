@@ -36,7 +36,7 @@ i=0, j4 -> leet + dfs(4)
         memo[s.length()] = true;
         Set<String> wordSet = new HashSet<>(wordDict); 
         int start, end=s.length();
-        while( end > 0 ){
+        while( end >= 0 ){
             for( start=end-1; start>=0; start-- ){
                 if( wordSet.contains(s.substring(start, end)) && memo[end]==true){
                     memo[start] = true;
