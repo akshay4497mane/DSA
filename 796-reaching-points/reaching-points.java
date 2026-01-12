@@ -38,7 +38,7 @@ Summary: Work backwards from (tx,ty). Since forward only adds, reverse only subt
 Time: O(tx+ty) worst-case
 Space: O(1)
 */
-    //WRONG
+    //WRONG ans
     public boolean reachingPoints_3(int sx,int sy,int tx,int ty){
         while( tx>sx && ty>sy ){
             if(tx>ty) 
@@ -48,7 +48,8 @@ Space: O(1)
         }
         return (tx==sx&&ty==sy);
     }
-    public boolean reachingPoints(int sx,int sy,int tx,int ty){
+    //WORKS correctly
+    public boolean reachingPoints_32(int sx,int sy,int tx,int ty){
         while(tx>=sx&&ty>=sy){
             if(tx==sx&&ty==sy) return true;
             if(tx>ty) tx-=ty;
@@ -58,7 +59,71 @@ Space: O(1)
         }
         return false;
     }    
+/*
+Approach 4: Optimized reverse using modulo (final)
+Summary: Instead of repeated subtraction, jump using modulo. When one coordinate matches start, directly validate the other via divisibility. This is optimal.
+Time: O(log(max(tx,ty)))
+Space: O(1)
+*/
+    public boolean reachingPoints(int sx,int sy,int tx,int ty){
+        while(tx>=sx && ty>=sy){
+            if(tx==sx && ty==sy) return true;
+            if(tx>ty){
+                if(ty==sy) return (tx-sx)%ty==0;
+                tx%=ty;
+            }else{
+                if(tx==sx) return (ty-sy)%tx==0;
+                ty%=tx;
+            }
+        }
+        return false;
+    }
 
+/*
+Why? explain? if(ty==sy) return (tx-sx)%ty==0;
+
+• y is already fixed at the start value
+• Only x needs to be reduced to sx
+• We are going backwards
+
+What forward moves look like when y is fixed
+If y = sy is constant, the only valid forward move is:
+(x, sy) → (x + sy, sy)
+
+So forward, x can only increase by exactly sy each step:
+sx, sx+sy, sx+2sy, sx+3sy, ...
+
+What backward must check
+We are at (tx, sy) and want to reach (sx, sy).
+Backward move is:
+(tx, sy) → (tx − sy, sy)
+
+So the question becomes:
+Can tx reach sx by repeatedly subtracting sy?
+
+That is pure arithmetic:
+tx = sx + k * sy for some integer k ≥ 0
+
+Rewritten:
+(tx − sx) % sy == 0
+*/
+
+/*
+Approach 3 intuition: Reverse greedy with subtraction
+Think backward instead of forward. Forward moves only add, so backward moves must subtract. From (tx, ty), the last move must have come from either (tx−ty, ty) or (tx, ty−tx). So at each step, subtract the smaller value from the larger. This mimics undoing one forward operation at a time. When one coordinate hits the start value, the other must be reachable by repeated additions of that same value (divisibility check).
+
+Why it’s limited
+This is logically correct but inefficient. In worst cases like (1,1) → (1e9,1), you subtract 1 repeatedly → too slow.
+
+Approach 4 intuition: Reverse greedy with modulo (Euclid jump)
+Approach 4 is the same logic as Approach 3, but done in bulk. Instead of subtracting the smaller number one-by-one, subtract it as many times as possible in a single step using modulo. This is exactly Euclid’s algorithm for GCD. Once one coordinate equals the start, you only need to check if the remaining difference can be closed by repeated additions of the fixed value.
+
+Key mental model (interview gold)
+Approach 3 = simulate undoing moves step-by-step
+Approach 4 = mathematically compress those steps using modulo
+
+Both rely on the same invariant: at any point, the pair (x,y) must be reachable via repeated additions of the smaller number. The modulo version just reaches the answer before time runs out.
+*/
 }
 
 
