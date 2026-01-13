@@ -1,7 +1,9 @@
 /*
+Revision 13 jan 2026
+
 Create 2 HashMaps
 1. key -> Node(freq, val)
-2. Freq -> [key1,key2]
+2. Freq -> [key1,key2,key3]
 1 -> 
 2 -> akshay,  y,z
 3 -> g
@@ -10,7 +12,7 @@ Create Node class( key, value, freq)
 
 */
 class LFUCache {
-    Map<Integer, Node> cache = new HashMap<>(); //key -> Node(freq, val)
+    Map<Integer, Node> cache = new HashMap<>(); //key -> Node(freq, val)  |1-1
     Map<Integer, LinkedHashSet<Integer>> freqMap = new HashMap<>(); //Freq -> [key1,key2, key3]
     int minFreq;
     int capacity;
@@ -38,7 +40,7 @@ class LFUCache {
             minFreq++;
         }
         node.freq++;
-        freqMap.computeIfAbsent(node.freq, (k) -> new LinkedHashSet<>()).add(node.key);
+        freqMap.computeIfAbsent(node.freq, (ignored) -> new LinkedHashSet<>()).add(node.key);
     }
     
     public void put(int key, int value) {
