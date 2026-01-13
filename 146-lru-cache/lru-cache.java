@@ -1,39 +1,31 @@
+//Read Revision 13 JAN
 //Read Revision 31 dec
 //Revision 15 DEC 2025, Wrote Code
-//Revision 12 Nov 2025, Wrote Code_
-/**
- * Problem Statement:
- * Implement an LRU (Least Recently Used) Cache with a given capacity.
- * The cache should support two operations:
- * 1. get(key) - Retrieve the value of the key if present, else return -1.
- * 2. put(key, value) - Insert or update the key-value pair. 
- *    If the cache reaches capacity, remove the least recently used item.
- * 
- * Solution Approach:
- * - Use a HashMap for O(1) access to nodes.
- * - Use a Doubly Linked List (DLL) to maintain the order of usage.
- * - The least recently used (LRU) item will always be at the head.
- * - The most recently used (MRU) item will always be at the tail.
- * - When an item is accessed, move it to the tail (MRU position).
- * - When an item is added, insert it at the tail.
- * - When the cache is full, remove the item from the head (LRU position).
- * 
- * Time Complexity:
- * - get(key) -> O(1)
- * - put(key, value) -> O(1)
- * 
- * Space Complexity:
- * - O(capacity) for storing key-value pairs.
- */
+//Revision 12 Nov 2025, Wrote Code
+/*
+Problem Statement:
+-Implement an LRU (Least Recently Used) Cache with a given capacity.
+-The cache should support two operations:
+ 1. get(key) - Retrieve the value of the key if present, else return -1.
+ 2. put(key, value) - Insert or update the key-value pair. 
+  If the cache reaches capacity, remove the least recently used item.
 
+Solution Approach:
+ 1.GET: Use a HashMap for O(1) access to nodes.
+ 2.PUT: Use a Doubly Linked List (DLL) to maintain the order of usage.
+  - The least recently used (LRU) item will always be at the head.
+  - The most recently used (MRU) item/Insert will always be at the tail.
+  - (GET)When an item is accessed, move it to the tail (MRU position).
+  - (PUT)When an item is added, insert it at the tail.
+  - (Put-> remove)When the cache is full, remove the item from the head (LRU position).
+Time Complexity: get(key) -> O(1) | put(key, value) -> O(1)
+Space Complexity: O(capacity) for storing key-value pairs.
+*/
 class LRUCache {
     int capacity;
     Map<Integer, DLLNode> map; // HashMap to store key-node pairs for O(1) access
     DLLNode head, tail; // Dummy head and tail nodes for easier operations
-    /**
-     * Doubly Linked List (DLL) Node
-     */
-    private class DLLNode {
+    private class DLLNode { // Doubly Linked List (DLL) Node
         Integer key, val;
         DLLNode prev, next;
         DLLNode(int key, int val, DLLNode prev, DLLNode next) {
@@ -44,9 +36,7 @@ class LRUCache {
         }
     }
 
-    /**
-     * Initialize the LRUCache with a given capacity.
-     */
+    //Initialize the LRUCache with a given capacity.
     public LRUCache(int capacity) {
         this.capacity = capacity;
         map = new HashMap<>();
@@ -79,7 +69,7 @@ class LRUCache {
      */
     public void put(int key, int value) {
         if (map.containsKey(key)) {
-            removeFromDLL(map.get(key)); // Remove existing node
+            removeFromDLL(map.get(key)); // Remove existing node //map.remove()
         }
         DLLNode node = new DLLNode(key, value, null, null);
         map.put(key, node); // Insert into HashMap
