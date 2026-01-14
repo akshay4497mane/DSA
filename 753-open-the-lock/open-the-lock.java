@@ -34,7 +34,7 @@ class Solution_1{
 }
 
 /* -------------------- Approach 2: BFS (Expected & Correct) -------------------- */
-class Solution{
+class Solution_2{
     public int openLock(String[] deadends,String target){
         Set<String> dead=new HashSet<>(Arrays.asList(deadends));
         if(dead.contains("0000")) return -1; // blocked at start
@@ -56,6 +56,42 @@ class Solution{
     }
 
     List<String> next(String s){
+        List<String> r=new ArrayList<>(8);
+        char[] a=s.toCharArray();
+        for(int i=0;i<4;i++){
+            char c=a[i];
+            a[i]=(c=='9')?'0':(char)(c+1); r.add(new String(a));
+            a[i]=(c=='0')?'9':(char)(c-1); r.add(new String(a));
+            a[i]=c;
+        }
+        return r;
+    }
+}
+
+/* -------------------- Approach 3: Bidirectional BFS (Optimized) -------------------- */
+class Solution{
+    public int openLock(String[] deadends,String target){
+        Set<String> dead=new HashSet<>(Arrays.asList(deadends));
+        if(dead.contains("0000")||dead.contains(target)) return -1;
+        Set<String> begin=new HashSet<>(),end=new HashSet<>(),vis=new HashSet<>();
+        begin.add("0000"); end.add(target);
+        int steps=0;
+        while(!begin.isEmpty()&&!end.isEmpty()){
+            if(begin.size()>end.size()){Set<String> t=begin; begin=end; end=t;} // expand smaller side
+            Set<String> next=new HashSet<>();
+            for(String cur:begin){
+                if(end.contains(cur)) return steps; // meet point
+                vis.add(cur);
+                for(String n:neighbors(cur)){
+                    if(!dead.contains(n)&&!vis.contains(n)) next.add(n);
+                }
+            }
+            begin=next; steps++;
+        }
+        return -1;
+    }
+
+    List<String> neighbors(String s){
         List<String> r=new ArrayList<>(8);
         char[] a=s.toCharArray();
         for(int i=0;i<4;i++){
