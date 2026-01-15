@@ -1,10 +1,32 @@
 /*
+Note : Approach 3 is sufficient and cleaner.
+
+15 JAN 2026 : read revision.
+
+Your Approach 3 is the interview-grade solution.
+
+What you should say in interview (verbatim safe)
+“I can do this with a stack + heap using lazy deletion, but it degrades to O(n) in worst case. A cleaner solution is using two balanced BSTs with unique IDs, which guarantees log-n for all operations.”
+
+That sentence alone signals seniority.
+
+What to memorise (strict)
+
+Approach 3 only (TreeSet / TreeMap + Node)
+
+Why index/id is needed
+
+Why comparator defines uniqueness
+
+Why PriorityQueue fails for delete-arbitrary
+
+
 Approach1: Two Balanced Trees/2 TreeSets ( BST - Red Black Tree / ) [guarantees No duplicates, Ordering]
 push() O(log n)
 pop() O(log n)
+popMax() O(log n)
 top() O(1)
 peekMax() O(1)
-popMax() O(log n)
 TreeSet gives you:
 1.O(log n) insert/delete
 2.last() → max element
@@ -52,9 +74,10 @@ Approach 2: Stack + Heap + Lazy Deletion
 Stack / Heap | removed set + index 
 push() O(log n)
 pop() Amortized O(log n), Worst O(n)
+popMax() Amortized O(log n), Worst O(n)
+
 top() Amortized O(1), Worst O(n)
 peekMax() Amortized O(log n), Worst O(n)
-popMax() Amortized O(log n), Worst O(n)
 */
 class MaxStack_2 {
     private Stack<int[]> stack;
