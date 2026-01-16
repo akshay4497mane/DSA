@@ -1,3 +1,10 @@
+/*
+Backtracking approach
+
+time : O( R * C * 4^L) | L = length of word
+
+*/
+
 class Solution {
     public boolean exist(char[][] board, String word) {
         int rows = board.length;
