@@ -38,7 +38,6 @@ class Solution {
         }        
     }
 }
-
 class Solution2 {
     private static final int[][] dir = {
         {-1, 1, 0, 0}, // row movement: up, down
