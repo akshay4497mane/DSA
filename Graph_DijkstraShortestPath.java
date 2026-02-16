@@ -1,3 +1,195 @@
+/*
+What is Dijkstra?
+• Algorithm to find shortest path from one source to all vertices
+• Works on weighted graphs
+• Requires all edge weights ≥ 0
+• Greedy approach using a min-heap
+• Core idea: always expand the node with smallest current distance
+
+---
+
+How It Works (High Level)
+
+• Initialize all distances = infinity
+• Set source distance = 0
+• Use min-heap to pick smallest distance node
+• Relax its neighbors (update if shorter path found)
+• Repeat until heap is empty
+
+---
+
+Types of Dijkstra
+
+1. Eager (Classic / Relaxation-Based)
+   • Maintain dist[] with tentative distances
+   • If shorter path found → update dist[]
+   • Push updated value into heap
+   • Use visited[] to finalize nodes
+
+2. Lazy
+   • Do NOT update dist repeatedly
+   • Allow duplicate entries in heap
+   • First time a node is popped → finalize
+   • Skip stale entries afterward
+
+---
+
+Eager vs Lazy Comparison
+
+Eager:
+• Uses relaxation condition (newDist < dist[nbr])
+• Conceptually cleaner
+• Closer to textbook
+• Slightly more controlled heap usage
+
+Lazy:
+• Simpler implementation
+• No explicit relaxation check for finalized nodes
+• More duplicate entries in heap
+• Very practical in Java (since no decrease-key support)
+
+Both:
+• Time → O((V + E) log V)
+• Space → O(V + E)
+• Require non-negative weights
+
+---
+
+When to Use Dijkstra
+
+• Road navigation (Google Maps)
+• Network routing (OSPF)
+• Cheapest flight problems
+• Game pathfinding
+• Latency optimization systems
+
+---
+
+When NOT to Use
+
+• Graph has negative edges → use Bellman-Ford
+• Need shortest path between all pairs → use Floyd-Warshall or repeated Dijkstra
+*/
+import java.util.*;
+
+class Solution {
+
+    static int[] dijkstra(int V, ArrayList<ArrayList<int[]>> adj, int src) {
+
+        // dist[i] = shortest known distance from src to i
+        int[] dist = new int[V];
+
+        // visited[i] = whether shortest distance finalized
+        boolean[] visited = new boolean[V];
+
+        // Initially set all distances to infinity
+        Arrays.fill(dist, Integer.MAX_VALUE);
+
+        // Distance to source is 0
+        dist[src] = 0;
+
+        // Min-heap: stores {node, distance}
+        // Lambda comparator → smaller distance first
+        PriorityQueue<int[]> pq =
+                new PriorityQueue<>((a, b) -> a[1] - b[1]);
+
+        // Push source
+        pq.add(new int[]{src, 0});
+
+        while (!pq.isEmpty()) {
+
+            int[] curr = pq.poll();
+            int node = curr[0];
+
+            // Skip if already processed
+            if (visited[node])
+                continue;
+
+            // Mark as finalized
+            visited[node] = true;
+
+            // Explore neighbors
+            for (int[] edge : adj.get(node)) {
+
+                int neighbor = edge[0];
+                int weight = edge[1];
+
+                // Relaxation:
+                // If new shorter path found
+                if (!visited[neighbor] &&
+                    dist[node] + weight < dist[neighbor]) {
+
+                    dist[neighbor] = dist[node] + weight;
+
+                    // Push updated distance
+                    pq.add(new int[]{neighbor, dist[neighbor]});
+                }
+            }
+        }
+
+        return dist;
+    }
+}
+
+
+
+
+
+
+import java.util.*;
+
+class Solution {
+
+    static int[] dijkstra(int V, ArrayList<ArrayList<int[]>> adj, int src) {
+
+        // shortest[i] = finalized shortest distance
+        int[] shortest = new int[V];
+
+        Arrays.fill(shortest, Integer.MAX_VALUE);
+
+        // Min-heap based on distance
+        PriorityQueue<int[]> pq =
+                new PriorityQueue<>((a, b) -> a[1] - b[1]);
+
+        // Push source with distance 0
+        pq.add(new int[]{src, 0});
+
+        while (!pq.isEmpty()) {
+
+            int[] curr = pq.poll();
+            int node = curr[0];
+            int distance = curr[1];
+
+            // If already finalized, skip
+            if (shortest[node] != Integer.MAX_VALUE)
+                continue;
+
+            // First time popped → shortest confirmed
+            shortest[node] = distance;
+
+            // Push neighbors
+            for (int[] edge : adj.get(node)) {
+
+                int neighbor = edge[0];
+                int weight = edge[1];
+
+                if (shortest[neighbor] == Integer.MAX_VALUE) {
+
+                    pq.add(new int[]{neighbor,
+                                     distance + weight});
+                }
+            }
+        }
+
+        return shortest;
+    }
+}
+
+
+
+
+
+
 //{ Driver Code Starts
 import java.util.*;
 import java.io.*;
