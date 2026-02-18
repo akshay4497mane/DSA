@@ -3,7 +3,6 @@ class Solution {
 Approach 1: brute force, map, 
 Approach 2 : Sort -> traverse count 
 => N log N +  N | O(1)
-
 Aproach 3: 
     cand1 , count1
     cand2, count2
@@ -12,8 +11,14 @@ Aproach 3:
  check count1 =0
  check count2 ==0
  --count1, --count2
-
 reverify cand1, cand2
+N = 9
+3 =  n/3
+4 + 4 +1
+
+N/K + 1
+
+at most K-1 elements
 */    
     public List<Integer> majorityElement(int[] nums) {
         int cand1=0 , count1=0, cand2=0, count2=0;
